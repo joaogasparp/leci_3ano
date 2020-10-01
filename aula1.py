@@ -2,23 +2,23 @@
 def comprimento(lista):
 	pass
 
-#Exercicio 1.1
+#Exercicio 1.2
 def soma(lista):
 	pass
 
-#Exercicio 1.1
+#Exercicio 1.3
 def existe(lista, elem):
 	pass
 
-#Exercicio 1.1
+#Exercicio 1.4
 def concat(l1, l2):
 	pass
 
-#Exercicio 1.1
+#Exercicio 1.5
 def inverte(lista):
 	pass
 
-#Exercicio 1.1
+#Exercicio 1.6
 def capicua(lista):
 	pass
 
@@ -26,7 +26,7 @@ def capicua(lista):
 def separar(lista):
 	pass
 
-
+#Exercicio 2.2
 def remove_e_conta(lista, elem):
 	pass
 
