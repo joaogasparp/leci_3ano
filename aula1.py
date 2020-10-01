@@ -22,6 +22,18 @@ def inverte(lista):
 def capicua(lista):
 	pass
 
+#Exercicio 1.7
+def explode(lista):
+	pass
+
+#Exercicio 1.8
+def substitui(lista, original, novo):
+	pass
+
+#Exercicio 1.9
+def junta_ordenado(lista1, lista2):
+	pass
+
 #Exercicio 2.1
 def separar(lista):
 	pass
