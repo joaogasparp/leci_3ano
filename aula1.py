@@ -52,13 +52,7 @@ def cauda(lista):
 
 #Exercicio 3.3
 def juntar(l1, l2):
-	if len(l1) != len(l2):
-		return None
-
-	if l1 == []:
-		return []
-
-	return [(l1[0], l2[0])] + juntar(l1[1:], l2[1:])
+    pass
 
 #Exercicio 3.4
 def menor(lista):
