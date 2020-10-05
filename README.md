@@ -1,7 +1,7 @@
 # iia-ia-guiao-python
 Programação ao Estilo Funcional em Python
 
-# Install
+# Como resolver o guião
 1. Crie um virtual environment:
 ```bash
 python3 -m venv venv
