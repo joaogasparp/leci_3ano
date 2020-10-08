@@ -65,6 +65,12 @@ def test_separar(mock_separar):
     assert mock_separar([(1, 'a'), (2, 'b'), (3, 'c')]) == ([1,2,3], ['a','b','c'])
     assert mock_separar.call_count == 4
 
+#Exercicio 2.2
+@mock.patch('aula1.remove_e_conta', side_effect = aula1.remove_e_conta)
+def test_remove_e_conta(mock_remove_e_conta):
+    assert mock_remove_e_conta([1,6,2,5,5,2,5,2],2) == ([1,6,5,5,5],3)
+    assert mock_remove_e_conta.call_count == 9
+
 #Exercicio 3.3
 @mock.patch('aula1.juntar', side_effect = aula1.juntar)
 def test_juntar(mock_juntar):
