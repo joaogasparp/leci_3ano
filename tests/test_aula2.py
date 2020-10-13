@@ -16,16 +16,18 @@ def test_positivo():
     assert not positivo(-4)
 
 #Exercicio 4.3
-def test_comparar_module():
+def test_comparar_modulo():
     assert isinstance(comparar_modulo, types.FunctionType)
     assert not comparar_modulo(-4, 2)
-    assert comparar_module(3, -4) 
+    assert comparar_modulo(3, -4) 
     
 #Exercicio 4.4
+def test_cart2pol():
     assert isinstance(cart2pol, types.FunctionType)
     assert cart2pol(0, 1) == (1.0, 1.5707963267948966)
 
 #Exercicio 4.5
+def test_ex5():
     assert isinstance(ex5, types.FunctionType)
     t = ex5(lambda x,y: x+y, lambda x,y: x*y, lambda x,y: x < y)
     assert isinstance(t, types.FunctionType)
