@@ -1,4 +1,6 @@
+import mock
 import types
+import aula2
 from aula2 import *
 
 #Exercicio 4.1
@@ -25,7 +27,7 @@ def test_comparar_module():
 
 #Exercicio 4.5
     assert isinstance(ex5, types.FunctionType)
-    t = ex5(lambda x,y: x+y, lambda x,y: x*y, lambda, x,y: x < y)
+    t = ex5(lambda x,y: x+y, lambda x,y: x*y, lambda x,y: x < y)
     assert isinstance(t, types.FunctionType)
     assert t(1,2,3)
 
