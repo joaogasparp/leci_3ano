@@ -31,7 +31,7 @@ def test_ex5():
     assert isinstance(ex5, types.FunctionType)
     t = ex5(lambda x,y: x+y, lambda x,y: x*y, lambda x,y: x < y)
     assert isinstance(t, types.FunctionType)
-    assert t(1,2,3)
+    assert t(1,2,3) == 3
 
 #Exercicio 4.6
 @mock.patch('aula2.quantificador_universal', side_effect = aula2.quantificador_universal)
