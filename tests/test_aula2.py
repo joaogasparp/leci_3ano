@@ -47,8 +47,8 @@ def test_ordem(mock_ordem):
 #Exercicio 4.10
 @mock.patch('aula2.filtrar_ordem', side_effect = aula2.filtrar_ordem)
 def test_filtrar_ordem(mock_filtrar_ordem):
-    assert mock_filtrar_ordem([1,-1,4,0], lambda x, y: x < y) == -1, [1,4,0]
-    assert mock_filtrar_ordem([1,-1,4,0], lambda x, y: x > y) == 4, [1,-1,0]
+    assert mock_filtrar_ordem([1,-1,4,0], lambda x, y: x < y) == (-1, [1,4,0])
+    assert mock_filtrar_ordem([1,-1,4,0], lambda x, y: x > y) == (4, [1,-1,0])
 
 #Exercicio 5.2a
 @mock.patch('aula2.ordenar_seleccao', side_effect = aula2.ordenar_seleccao)
