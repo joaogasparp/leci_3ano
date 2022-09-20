@@ -43,10 +43,10 @@ def test_capicua(mock_capicua):
     assert mock_capicua.call_count == 7
 
 #Exercicio 1.7
-@mock.patch('aula1.explode', side_effect = aula1.explode)
+@mock.patch('aula1.concat_listas', side_effect = aula1.concat_listas)
 def test_explode(mock_explode):
-    assert mock_explode([[1,2], [3,4]]) == [1,2,3,4]
-    assert mock_explode([[1,2], [3,4], [5]]) == [1,2,3,4,5]
+    assert mock_concat_listas([[1,2], [3,4]]) == [1,2,3,4]
+    assert mock_concat_listas([[1,2], [3,4], [5]]) == [1,2,3,4,5]
 
 #Exercicio 1.8
 @mock.patch('aula1.substitui', side_effect = aula1.substitui)
@@ -55,9 +55,9 @@ def test_substitui(mock_substitui):
     assert mock_substitui([1,2,3,4], 5, 6) == [1,2,3,4]
 
 #Exercicio 1.9
-@mock.patch('aula1.junta_ordenado', side_effect = aula1.junta_ordenado)
-def test_junta_ordenado(mock_junta_ordenado):
-    assert mock_junta_ordenado([1,2,3,4], [2,3,4,5]) == [1,2,2,3,3,4,4,5] 
+@mock.patch('aula1.fusao_ordenada', side_effect = aula1.fusao_ordenada)
+def test_junta_ordenado(mock_fusao_ordenada):
+    assert mock_fusao_ordenada([1,2,3,4], [2,3,4,5]) == [1,2,2,3,3,4,4,5] 
 
 #Exercicio 2.1
 @mock.patch('aula1.separar', side_effect = aula1.separar)
