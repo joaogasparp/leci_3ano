@@ -23,7 +23,7 @@ def capicua(lista):
 	pass
 
 #Exercicio 1.7
-def explode(lista):
+def concat_listas(lista):
 	pass
 
 #Exercicio 1.8
@@ -31,8 +31,13 @@ def substitui(lista, original, novo):
 	pass
 
 #Exercicio 1.9
-def junta_ordenado(lista1, lista2):
+def fusao_ordenada(lista1, lista2):
 	pass
+
+#Exercicio 1.10
+def lista_subconjuntos(lista):
+	pass
+
 
 #Exercicio 2.1
 def separar(lista):
