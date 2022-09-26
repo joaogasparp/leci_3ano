@@ -59,6 +59,11 @@ def test_substitui(mock_substitui):
 def test_junta_ordenado(mock_fusao_ordenada):
     assert mock_fusao_ordenada([1,2,3,4], [2,3,4,5]) == [1,2,2,3,3,4,4,5] 
 
+#Exercicio 1.10
+@mock.patch('aula1.lista_subconjuntos', side_effect = aula1.lista_subconjuntos)
+def test_junta_ordenado(mock_lista_subconjuntos):
+    assert set(mock_lista_subconjuntos([1,2,3])) = set([[],[1],[2],[3],[1,2],[1,3],[2,3],[1,2,3]])
+
 #Exercicio 2.1
 @mock.patch('aula1.separar', side_effect = aula1.separar)
 def test_separar(mock_separar):
