@@ -62,7 +62,7 @@ def test_fusao_ordenada(mock_fusao_ordenada):
 #Exercicio 1.10
 @mock.patch('aula1.lista_subconjuntos', side_effect = aula1.lista_subconjuntos)
 def test_lista_subconjuntos(mock_lista_subconjuntos):
-    assert set(mock_lista_subconjuntos([1,2,3])) == set([[],[1],[2],[3],[1,2],[1,3],[2,3],[1,2,3]])
+    assert sorted(mock_lista_subconjuntos([1,2,3])) == sorted([[],[1],[2],[3],[1,2],[1,3],[2,3],[1,2,3]])
 
 #Exercicio 2.1
 @mock.patch('aula1.separar', side_effect = aula1.separar)
