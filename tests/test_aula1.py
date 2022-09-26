@@ -45,8 +45,8 @@ def test_capicua(mock_capicua):
 #Exercicio 1.7
 @mock.patch('aula1.concat_listas', side_effect = aula1.concat_listas)
 def test_explode(mock_explode):
-    assert mock_concat_listas([[1,2], [3,4]]) == [1,2,3,4]
-    assert mock_concat_listas([[1,2], [3,4], [5]]) == [1,2,3,4,5]
+    assert mock_explode([[1,2], [3,4]]) == [1,2,3,4]
+    assert mock_explode([[1,2], [3,4], [5]]) == [1,2,3,4,5]
 
 #Exercicio 1.8
 @mock.patch('aula1.substitui', side_effect = aula1.substitui)
