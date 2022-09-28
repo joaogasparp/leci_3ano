@@ -1,9 +1,6 @@
 #Exercicio 1.1
 def comprimento(lista):
-    if lista == []:
-        return 0
-
-    return 1 + comprimento(lista[1:])
+	pass
 
 #Exercicio 1.2
 def soma(lista):
