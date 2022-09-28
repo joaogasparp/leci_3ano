@@ -38,6 +38,15 @@ def test_ex5():
 def test_quantificador_universal(mock_qt_uni):
     assert mock_qt_uni([11,12,13,14], lambda n: n > 10)
 
+#Exercicio 4.8
+@mock.patch('aula2.subconjunto', side_effect = aula2.subconjunto)
+def test_subconjunto(mock_subconjunto):
+    assert mock_subconjunto([11,12,13,14], [11,12,13,14,15,16])
+    assert mock_subconjunto([11,12,13,14], [10,11,12,13,14])
+    assert mock_subconjunto([11,12,13,14], [10,11,12,13,14,15])
+    assert not mock_subconjunto([11,12,33,14], [10,11,12,13,14,15])
+
+
 #Exercicio 4.9
 @mock.patch('aula2.ordem', side_effect = aula2.ordem)
 def test_ordem(mock_ordem):
