@@ -22,3 +22,16 @@ pip install -r requirements.txt
 5. Teste a sua solução.
 ```bash
 pytest
+```
+
+6. Adicione o repositorio do professor como upstream.
+```bash
+git remote add upstream git@github.com:detiuaveiro/iia-ia-guiao-python.git
+```
+
+7. Actualize o seu codigo
+```bash
+git fetch upstream
+git merge upstream/master
+```
+
