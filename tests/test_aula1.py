@@ -26,7 +26,7 @@ def test_existe(mock_existe):
 @mock.patch('aula1.concat', side_effect = aula1.concat)
 def test_concat(mock_concat):
     assert mock_concat([1,2,3,4], [5,6]) == [1,2,3,4,5,6]
-    assert mock_concat.call_count == 3
+    assert mock_concat.call_count in [3,4,5]
 
 #Exercicio 1.5
 @mock.patch('aula1.inverte', side_effect = aula1.inverte)
@@ -40,7 +40,7 @@ def test_capicua(mock_capicua):
     assert mock_capicua([3,2,3])
     assert mock_capicua([3,2,2,3])
     assert not mock_capicua([1,2,3])
-    assert mock_capicua.call_count == 7
+    assert mock_capicua.call_count == [6,7]
 
 #Exercicio 1.7
 @mock.patch('aula1.concat_listas', side_effect = aula1.concat_listas)
@@ -77,16 +77,16 @@ def test_remove_e_conta(mock_remove_e_conta):
     assert mock_remove_e_conta.call_count == 9
 
 #Exercicio 3.3
-@mock.patch('aula1.juntar', side_effect = aula1.juntar)
-def test_juntar(mock_juntar):
-    assert mock_juntar([1,2,3], ['a','b','c']) == [(1, 'a'), (2, 'b'), (3, 'c')]
-    assert mock_juntar.call_count == 4
-    assert mock_juntar([1,2,3], ['a','b','c','d']) == None
-    assert mock_juntar.call_count == 5
+@mock.patch('aula1.faz_pares', side_effect = aula1.faz_pares)
+def test_faz_pares(mock_faz_pares):
+    assert mock_faz_pares([1,2,3], ['a','b','c']) == [(1, 'a'), (2, 'b'), (3, 'c')]
+    assert mock_faz_pares.call_count == 4
+    assert mock_faz_pares([1,2,3], ['a','b','c','d']) == None
+    assert mock_faz_pares.call_count == 5
 
 #Exercicio 3.4
 @mock.patch('aula1.menor', side_effect = aula1.menor)
 def test_menor(mock_menor):
     assert mock_menor([1,2,3,0,5]) == 0
-    assert mock_menor.call_count == 6
+    assert mock_menor.call_count in [5,6]
     assert mock_menor([]) == None
