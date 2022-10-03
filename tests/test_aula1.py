@@ -40,7 +40,7 @@ def test_capicua(mock_capicua):
     assert mock_capicua([3,2,3])
     assert mock_capicua([3,2,2,3])
     assert not mock_capicua([1,2,3])
-    assert mock_capicua.call_count == [6,7]
+    assert mock_capicua.call_count in [6,7]
 
 #Exercicio 1.7
 @mock.patch('aula1.concat_listas', side_effect = aula1.concat_listas)
