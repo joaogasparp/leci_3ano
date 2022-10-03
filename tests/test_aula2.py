@@ -39,10 +39,10 @@ def test_quantificador_universal(mock_qt_uni):
     assert mock_qt_uni([11,12,13,14], lambda n: n > 10)
 
 #Exercicio 4.9
-@mock.patch('aula2.ordem', side_effect = aula2.ordem)
-def test_ordem(mock_ordem):
-    assert mock_ordem([1,-1,4,0], lambda x,y: x < y) == -1
-    assert mock_ordem([1,-1,4,0], lambda x,y: x > y) == 4
+@mock.patch('aula2.menor_ordem', side_effect = aula2.menor_ordem)
+def test_menor_ordem(mock_menor_ordem):
+    assert mock_menor_ordem([1,-1,4,0], lambda x,y: x < y) == -1
+    assert mock_menor_ordem([1,-1,4,0], lambda x,y: x > y) == 4
 
 #Exercicio 4.10
 @mock.patch('aula2.filtrar_ordem', side_effect = aula2.filtrar_ordem)
