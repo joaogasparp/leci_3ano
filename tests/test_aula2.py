@@ -54,10 +54,10 @@ def test_menor_ordem(mock_menor_ordem):
     assert mock_menor_ordem([1,-1,4,0], lambda x,y: x > y) == 4
 
 #Exercicio 4.10
-@mock.patch('aula2.filtrar_ordem', side_effect = aula2.filtrar_ordem)
-def test_filtrar_ordem(mock_filtrar_ordem):
-    assert mock_filtrar_ordem([1,-1,4,0], lambda x, y: x < y) == (-1, [1,4,0])
-    assert mock_filtrar_ordem([1,-1,4,0], lambda x, y: x > y) == (4, [1,-1,0])
+@mock.patch('aula2.menor_e_resto_ordem', side_effect = aula2.menor_e_resto_ordem)
+def test_menor_e_resto_ordem(mock_menor_e_resto_ordem):
+    assert mock_menor_e_resto_ordem([1,-1,4,0], lambda x, y: x < y) == (-1, [1,4,0])
+    assert mock_menor_e_resto_ordem([1,-1,4,0], lambda x, y: x > y) == (4, [1,-1,0])
 
 #Exercicio 5.2a
 @mock.patch('aula2.ordenar_seleccao', side_effect = aula2.ordenar_seleccao)
