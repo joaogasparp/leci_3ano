@@ -77,12 +77,12 @@ def test_remove_e_conta(mock_remove_e_conta):
     assert mock_remove_e_conta.call_count == 9
 
 #Exercicio 3.3
-@mock.patch('aula1.faz_pares', side_effect = aula1.faz_pares)
-def test_faz_pares(mock_faz_pares):
-    assert mock_faz_pares([1,2,3], ['a','b','c']) == [(1, 'a'), (2, 'b'), (3, 'c')]
-    assert mock_faz_pares.call_count == 4
-    assert mock_faz_pares([1,2,3], ['a','b','c','d']) == None
-    assert mock_faz_pares.call_count == 5
+@mock.patch('aula1.juntar', side_effect = aula1.juntar)
+def test_juntar(mock_juntar):
+    assert mock_juntar([1,2,3], ['a','b','c']) == [(1, 'a'), (2, 'b'), (3, 'c')]
+    assert mock_juntar.call_count == 4
+    assert mock_juntar([1,2,3], ['a','b','c','d']) == None
+    assert mock_juntar.call_count == 5
 
 #Exercicio 3.4
 @mock.patch('aula1.menor', side_effect = aula1.menor)
