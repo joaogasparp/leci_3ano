@@ -76,6 +76,20 @@ def test_remove_e_conta(mock_remove_e_conta):
     assert mock_remove_e_conta([1,6,2,5,5,2,5,2],2) == ([1,6,5,5,5],3)
     assert mock_remove_e_conta.call_count == 9
 
+# Exercicio 3.1
+@mock.patch("aula1.cabeca", side_effect=aula1.cabeca)
+def test_cabeca(mock_cabeca):
+    assert mock_cabeca([1, 2, 3, 4]) == 1
+    assert mock_cabeca.call_count == 1
+
+# Exercicio 3.2
+@mock.patch("aula1.cauda", side_effect=aula1.cauda)
+def test_cauda(mock_cauda):
+    assert mock_cauda([1, 2, 3, 4]) == [2, 3, 4]
+    assert mock_cauda.call_count == 1
+    assert mock_cauda([1]) == []
+    assert mock_cauda.call_count == 2
+
 #Exercicio 3.3
 @mock.patch('aula1.juntar', side_effect = aula1.juntar)
 def test_juntar(mock_juntar):
