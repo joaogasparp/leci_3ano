@@ -1,18 +1,31 @@
 #Exercicio 1.1
 def comprimento(lista):
-	pass
+	if lista == []:
+		return 0
+	else:
+		return 1+comprimento(lista[1:])
 
 #Exercicio 1.2
 def soma(lista):
-	pass
+	if lista == []:
+		return 0
+	else:
+		return lista[0]+soma(lista[1:])
 
 #Exercicio 1.3
 def existe(lista, elem):
-	pass
+	if lista == []:
+		return False
+	if lista[0] == elem:
+		return True
+	return existe(lista[1:], elem)
 
 #Exercicio 1.4
 def concat(l1, l2):
-	pass
+	if l1 == []:
+		return l2
+	else:
+		return [l1[0]] + concat(l1[1:], l2)
 
 #Exercicio 1.5
 def inverte(lista):
@@ -24,7 +37,10 @@ def capicua(lista):
 
 #Exercicio 1.7
 def concat_listas(lista):
-	pass
+	if len(lista) == 1:
+		return lista[0]
+	else:
+		return lista[0] + concat_listas(lista[1:])
 
 #Exercicio 1.8
 def substitui(lista, original, novo):
@@ -32,7 +48,8 @@ def substitui(lista, original, novo):
 
 #Exercicio 1.9
 def fusao_ordenada(lista1, lista2):
-	pass
+    
+    
 
 #Exercicio 1.10
 def lista_subconjuntos(lista):
