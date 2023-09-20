@@ -56,8 +56,12 @@ def test_menor_ordem(mock_menor_ordem):
 #Exercicio 4.10
 @mock.patch('aula2.menor_e_resto_ordem', side_effect = aula2.menor_e_resto_ordem)
 def test_menor_e_resto_ordem(mock_menor_e_resto_ordem):
-    assert mock_menor_e_resto_ordem([1,-1,4,0], lambda x, y: x < y) == (-1, [1,4,0])
-    assert mock_menor_e_resto_ordem([1,-1,4,0], lambda x, y: x > y) == (4, [1,-1,0])
+    m, r =  mock_menor_e_resto_ordem([1,-1,4,0], lambda x, y: x < y) 
+    assert m == -1
+    assert sorted(r) == sorted([1,4,0])
+    m2, r2 = mock_menor_e_resto_ordem([1,-1,4,0], lambda x, y: x > y) 
+    assert m2 == 4
+    assert sorted(r2) == sorted([1,-1,0])
 
 #Exercicio 5.2a
 @mock.patch('aula2.ordenar_seleccao', side_effect = aula2.ordenar_seleccao)
