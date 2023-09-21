@@ -49,12 +49,12 @@ void menuChoiceAppend()
       list = base::append(list,nmec,name);
       printf("student added to the list\n");
    }*/
-   list = append(list,1,"a");
-   list = append(list,2,"b");
-   list = append(list,3,"c");
-   list = append(list,4,"d");
-   list = append(list,5,"e");
-   list = append(list,6,"f");
+   list = append(list,96,"Elena");
+   list = append(list,34,"Francisco");
+   list = append(list,65,"Carlos");
+   list = append(list,7,"David");
+   list = append(list,78,"Ana");
+   list = append(list,32,"Beatriz");
 }
 
 /* ******************************************** */
@@ -87,7 +87,7 @@ void menuChoiceSearch()
       printf("student number: %d | student name: %s\n", nmec, name);
    }else
    {
-      printf("student not found");
+      printf("student not found\n");
    }
 }
 
@@ -95,12 +95,14 @@ void menuChoiceSearch()
 
 void menuChoiceSortByName()
 {
+   list = sort_by_name(list);
 }
 
 /* ******************************************** */
 
 void menuChoiceSortByNumber()
 {
+   list = sort_by_number(list);
 }
 
 /* ******************************************** */

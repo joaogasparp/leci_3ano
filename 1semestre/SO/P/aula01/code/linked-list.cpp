@@ -103,11 +103,54 @@ namespace base {
 
    Node* sort_by_name(Node* list)
    {
-      return NULL;
+      if(list == NULL){
+         return list;
+      }
+
+      Node *i = list;
+
+      while(i != NULL){
+         Node *j = i->next;
+
+         while(j != NULL){
+
+            if(strcmp(j->reg.name, i->reg.name) < 0){
+               Student t = i->reg;
+               i->reg = j->reg;
+               j->reg = t;
+            }
+            j = j->next;
+         }
+
+         i = i->next;
+      }
+
+      return list;
    }
 
    Node* sort_by_number(Node* list)
    {
-      return NULL;
+      if(list == NULL){
+         return list;
+      }
+
+      Node *i = list;
+
+      while(i != NULL){
+         Node *j = i->next;
+
+         while(j != NULL){
+            if(j->reg.nmec < i->reg.nmec){
+               Student t = i->reg;
+               i->reg = j->reg;
+               j->reg = t;
+            }
+            j = j->next;
+         }
+
+         i = i->next;
+      }
+
+      return list;
    }
 }
