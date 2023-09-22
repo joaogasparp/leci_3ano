@@ -72,13 +72,15 @@ def fusao_ordenada(lista1, lista2):
 
 #Exercicio 1.10
 def lista_subconjuntos(lista):
-	if lista == []:
-		return []
-	return [lista[0]] + lista_subconjuntos(lista[1:])
+	pass
 
 #Exercicio 2.1
 def separar(lista):
-	pass
+	if lista == []:
+		return [],[]
+	a1,b1 = lista[0]
+	lista_a1, lista_b1 = separar(lista[1:])
+	return [a1] + lista_a1, [b1] + lista_b1
 
 #Exercicio 2.2
 def remove_e_conta(lista, elem):
@@ -94,7 +96,13 @@ def cauda(lista):
 
 #Exercicio 3.3
 def juntar(l1, l2):
-    pass
+    if len(l1) != len(l2):
+        return None
+    if l1 == []:
+        return []
+    a1 = l1[0]
+    b1 = l2[0]
+    return [(a1, b1)] + juntar(l1[1:], l2[1:])
 
 #Exercicio 3.4
 def menor(lista):
