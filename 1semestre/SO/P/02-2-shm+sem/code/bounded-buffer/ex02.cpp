@@ -1,3 +1,4 @@
+#include <sys/shm.h>
 #include <iostream>
 #include <sys/types.h>
 #include <sys/ipc.h>
