@@ -65,6 +65,7 @@ class SearchNode:
     def __init__(self,state,parent): 
         self.state = state
         self.parent = parent
+        self.depth = 0 if parent == None else parent.depth + 1
     def __str__(self):
         return "no(" + str(self.state) + "," + str(self.parent) + ")"
     def __repr__(self):
@@ -90,17 +91,20 @@ class SearchTree:
         return(path)
 
     # procurar a solucao
-    def search(self):
+    def search(self,limit = None):
         while self.open_nodes != []:
             node = self.open_nodes.pop(0)
             if self.problem.goal_test(node.state):
                 self.solution = node
                 return self.get_path(node)
+            if(node.depth > limit):
+                return None
             lnewnodes = []
             for a in self.problem.domain.actions(node.state):
                 newstate = self.problem.domain.result(node.state,a)
-                newnode = SearchNode(newstate,node)
-                lnewnodes.append(newnode)
+                if newstate not in self.get_path(node):
+                    newnode = SearchNode(newstate,node)
+                    lnewnodes.append(newnode)
             self.add_to_open(lnewnodes)
         return None
 
@@ -112,4 +116,7 @@ class SearchTree:
             self.open_nodes[:0] = lnewnodes
         elif self.strategy == 'uniform':
             pass
-
+        
+    @property
+    def length(self):
+        return self.solution.depth
