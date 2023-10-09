@@ -97,7 +97,7 @@ class SearchTree:
             if self.problem.goal_test(node.state):
                 self.solution = node
                 return self.get_path(node)
-            if(node.depth > limit):
+            if limit is not None and node.depth > limit:
                 return None
             lnewnodes = []
             for a in self.problem.domain.actions(node.state):
