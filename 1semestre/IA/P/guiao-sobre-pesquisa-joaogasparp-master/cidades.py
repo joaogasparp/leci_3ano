@@ -10,6 +10,7 @@
 #
 
 
+import math
 from tree_search import *
 
 class Cidades(SearchDomain):
@@ -28,8 +29,14 @@ class Cidades(SearchDomain):
         (C1,C2) = action
         if C1==city:
             return C2
+        
     def cost(self, city, action):
-        pass
+        (C1,C2) = action
+        for A,B,C in self.connections:
+            if (A==C1 and B==C2)  or (B==C1 and A==C2):
+                return C
+        return None
+    
     def heuristic(self, city, goal_city):
         pass
     def satisfies(self, city, goal_city):
