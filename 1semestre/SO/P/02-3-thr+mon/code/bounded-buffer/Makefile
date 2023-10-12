@@ -7,6 +7,9 @@ TARGETS = bb-unsafe bb-safe
 
 all: $(TARGETS)
 
+question2: question2.o
+	$(CXX) -o $@ $^ $(CXXFLAGS)
+
 bb-unsafe: main.o bwdelay.o fifo-unsafe.o thread.o utils.o
 	$(CXX) -o $@ $^ $(CXXFLAGS)
 
