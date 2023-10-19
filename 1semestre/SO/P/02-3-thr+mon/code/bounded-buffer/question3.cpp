@@ -16,15 +16,11 @@ void* child_thread1(void* arg)
     {
         mutex_lock(&mutex);
         while (count % 2 == 0)
-        {
             cond_wait(&cond, &mutex);
-        }
         count--;
-        if (count == 1)
-        {
+        if (count <= 2)
             finished = 1;
-        }
-        printf("THREAD 1 | PID [%d]: %d\n", getpid(), count);
+        printf("THREAD [1] | PID [%d]: %d\n", getpid(), count);
         cond_broadcast(&cond);
         mutex_unlock(&mutex);
     }
@@ -39,15 +35,11 @@ void* child_thread2(void* arg)
     {
         mutex_lock(&mutex);
         while (count % 2 == 1)
-        {
             cond_wait(&cond, &mutex);
-        }
         count--;
-        if (count == 1)
-        {
+        if (count <= 1)
             finished = 1;
-        }
-        printf("THREAD 2 | PID [%d]: %d\n", getpid(), count);
+        printf("THREAD [2] | PID [%d]: %d\n", getpid(), count);
         cond_broadcast(&cond);
         mutex_unlock(&mutex);
     }
@@ -58,10 +50,12 @@ void* child_thread2(void* arg)
 int main()
 {
     int value;
+    int n = 0;
     printf("VALUE [10 20] = ");
     scanf("%d", &value);
     while (value < 10 || value > 20) {
-        printf("INVALID VALUE. VALUE MUST BE BETWEEN 10 AND 20: ");
+        n++;
+        printf("(repeat[%d]) VALUE [10 20] = ", n);
         scanf("%d", &value);
     }
 
