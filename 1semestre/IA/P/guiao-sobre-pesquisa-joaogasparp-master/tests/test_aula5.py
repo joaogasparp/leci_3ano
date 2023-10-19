@@ -45,4 +45,3 @@ def test_exercicio16(braga_faro):
     t = SearchTree(braga_faro, 'uniform')
     t.search()
     assert round(t.average_depth,2) == 9.02
- 

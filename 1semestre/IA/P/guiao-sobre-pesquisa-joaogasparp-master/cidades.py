@@ -38,7 +38,11 @@ class Cidades(SearchDomain):
         return None
     
     def heuristic(self, city, goal_city):
-        pass
+        x1, y1 = self.coordinates[city]
+        x2, y2 = self.coordinates[goal_city]
+        distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        return distance
+
     def satisfies(self, city, goal_city):
         return goal_city==city
 

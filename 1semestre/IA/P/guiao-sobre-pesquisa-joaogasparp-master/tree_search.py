@@ -65,6 +65,8 @@ class SearchNode:
     def __init__(self,state,parent): 
         self.state = state
         self.parent = parent
+        self.cost = 0
+        self.heuristic = 0
         self.depth = 0 if parent == None else parent.depth + 1
     def __str__(self):
         return "no(" + str(self.state) + "," + str(self.parent) + ")"
@@ -81,6 +83,9 @@ class SearchTree:
         self.open_nodes = [root]
         self.strategy = strategy
         self.solution = None
+        self.terminals = 0
+        self.non_terminals = 0.0
+        self.highest_cost_nodes = []
 
     # obter o caminho (sequencia de estados) da raiz ate um no
     def get_path(self,node):
@@ -95,17 +100,27 @@ class SearchTree:
         while self.open_nodes != []:
             node = self.open_nodes.pop(0)
             if self.problem.goal_test(node.state):
+                self.terminals = len(self.open_nodes) + 1
                 self.solution = node
+                max_cost = self.open_nodes[-1].cost
+                for i in reversed(self.open_nodes):
+                    if i.cost < max_cost: break
+                    self.highest_cost_nodes = [i] + self.highest_cost_nodes
+                self.cost = self.solution.cost
+                self.solution.heuristic = 0
                 return self.get_path(node)
-            if limit is not None and node.depth > limit:
-                return None
-            lnewnodes = []
-            for a in self.problem.domain.actions(node.state):
-                newstate = self.problem.domain.result(node.state,a)
-                if newstate not in self.get_path(node):
-                    newnode = SearchNode(newstate,node)
-                    lnewnodes.append(newnode)
-            self.add_to_open(lnewnodes)
+            self.non_terminals += 1
+            if(limit == None or node.depth < limit):
+                lnewnodes = []
+                for a in self.problem.domain.actions(node.state):
+                    newstate = self.problem.domain.result(node.state,a)
+                    if newstate not in self.get_path(node):
+                        newnode = SearchNode(newstate,node)
+                        newnode.cost = node.cost + self.problem.domain.cost(node.state,a)
+                        newnode.heuristic = self.problem.domain.heuristic(newstate,self.problem.goal)
+                        lnewnodes.append(newnode)
+                self.add_to_open(lnewnodes)
+
         return None
 
     # juntar novos nos a lista de nos abertos de acordo com a estrategia
@@ -115,8 +130,23 @@ class SearchTree:
         elif self.strategy == 'depth':
             self.open_nodes[:0] = lnewnodes
         elif self.strategy == 'uniform':
-            pass
+            self.open_nodes.extend(lnewnodes)
+            self.open_nodes.sort(key=lambda e: e.cost)
+        elif self.strategy == 'greedy':
+            self.open_nodes.extend(lnewnodes)
+            self.open_nodes.sort(key=lambda e: e.heuristic)
+        elif self.strategy == "a*":
+            self.open_nodes.extend(lnewnodes)
+            self.open_nodes.sort(key=lambda e: e.heuristic + e.cost)
         
     @property
     def length(self):
         return self.solution.depth
+
+    @property
+    def cost(self):
+        return self.solution.cost
+
+    @property
+    def avg_branching(self):
+        return self.non_terminals / (self.terminals + self.non_terminals)
