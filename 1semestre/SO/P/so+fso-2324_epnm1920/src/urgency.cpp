@@ -20,6 +20,8 @@
 #include  "settings.h"
 #include  "pfifo.h"
 
+#include "thread.h"
+
 /* DO NOT CHANGE THE FOLLOWING VALUES, run program with option -h to set a different values */
 
 static int npatients = 4;  ///< number of patients
@@ -283,4 +285,3 @@ void random_wait()
 {
    usleep((useconds_t)(MAX_WAIT*(double)rand()/(double)RAND_MAX));
 }
-
