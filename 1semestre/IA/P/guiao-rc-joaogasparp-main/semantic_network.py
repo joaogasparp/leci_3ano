@@ -138,4 +138,44 @@ class SemanticNetwork:
         return list(set(llabe))
     
     def predecessor(self, entity1, entity2):
-        pass
+        ldecl= self.query_local(e2=entity1, rel="subtype")
+        ldecl += self.query_local(e2=entity1, rel="member")
+        lchild = [d.relation.entity1 for d in ldecl]
+
+        for c in lchild:
+            if c == entity2 or self.predecessor(c, entity2):
+                return True
+        return False
+    
+    def predecessor_path(self, entity1, entity2):
+        ldecl = self.query_local(e2=entity1, rel="subtype")
+        ldecl += self.query_local(e2=entity1, rel="member")
+        lchild = [d.relation.entity1 for d in ldecl]
+
+        for c in lchild:
+            if c==entity2:
+                return [entity1,entity2]
+            elif self.predecessor(c, entity2):
+                return [entity1] + self.predecessor_path(c, entity2)
+        return []
+    
+    def query(self, entity, assoc=None):
+        parents = [d.relation.entity2 for d in self.declarations if isinstance(d.relation, (Member, Subtype)) and d.relation.entity1 == entity]
+        
+        ldecl = [d for d in self.query_local(e1 = entity, rel = assoc) if isinstance(d.relation, Association)]
+        for p in parents:
+            ldecl += self.query(p, assoc)
+        return ldecl
+    
+    def query2(self, entity, rel=None):
+        ldecl = [d for d in self.query_local(e1 = entity, rel = rel)]        
+        return ldecl + self.query(entity, rel)
+    
+    def query_cancel(self, entity, assoc=None):
+        ldecl = [d for d in self.query_local(e1 = entity, rel = assoc)]
+
+        if ldecl == []:
+            parents = [d.relation.entity2 for d in self.declarations if isinstance(d.relation, (Member, Subtype)) and d.relation.entity1 == entity]
+            for p in parents:
+                ldecl += self.query_cancel(p, assoc)
+        return ldecl
