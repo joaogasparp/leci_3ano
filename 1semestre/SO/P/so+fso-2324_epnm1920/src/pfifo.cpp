@@ -42,16 +42,14 @@ void insert_pfifo(PriorityFIFO *pfifo, int id, int priority)
    require(priority > 0 && priority <= MAX_PRIORITY, "invalid priority value"); // a false value indicates a program error
    
    mutex_lock(&pfifo->mutex);
-   
-   require(!full_pfifo(pfifo), "full FIFO");                                    // IMPORTANT: in a shared fifo, it may not result from a program error!
-   
-   // printf("[insert_pfifo] value=%d, priority=%d, pfifo->inp=%d, pfifo->out=%d\n", id, priority, pfifo->inp, pfifo->out);
-
    while (full_pfifo(pfifo))
    {
       cond_wait(&pfifo->notfull, &pfifo->mutex);
    }
    
+   require(!full_pfifo(pfifo), "full FIFO");                                    // IMPORTANT: in a shared fifo, it may not result from a program error!
+   
+   // printf("[insert_pfifo] value=%d, priority=%d, pfifo->inp=%d, pfifo->out=%d\n", id, priority, pfifo->inp, pfifo->out);   
 
    int idx = pfifo->inp;
    int prev = (idx + FIFO_MAXSIZE - 1) % FIFO_MAXSIZE;
