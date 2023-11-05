@@ -33,11 +33,9 @@ typedef struct
    int out;  ///< point of retrieval (queue head)
    int cnt;  ///< number of items stored
    // TODO point: if necessary, add synchronization declarations here
-
    pthread_mutex_t mutex;
-   pthread_cond_t notfull;
-   pthread_cond_t notempty;
-
+   pthread_cond_t notEmpty;
+   pthread_cond_t notFull;
 } PriorityFIFO;
 
 void init_pfifo(PriorityFIFO* pfifo);
