@@ -159,23 +159,41 @@ class SemanticNetwork:
                 return [entity1] + self.predecessor_path(c, entity2)
         return []
     
-    def query(self, entity, assoc=None):
-        parents = [d.relation.entity2 for d in self.declarations if isinstance(d.relation, (Member, Subtype)) and d.relation.entity1 == entity]
+    def query(self, entity, assoc=None):        
+        lassoc = [d for d in self.query_local(e1 = entity, rel = assoc)
+                  if isinstance(d.relation, Association)]
+        lparent = [d.relation.entity2 for d in self.declarations
+                   if entity == d.relation.entity1
+                   and not isinstance(d.relation, Association)]
         
-        ldecl = [d for d in self.query_local(e1 = entity, rel = assoc) if isinstance(d.relation, Association)]
-        for p in parents:
-            ldecl += self.query(p, assoc)
-        return ldecl
+        for p in lparent:
+            lassoc += self.query(p, assoc)
+        return lassoc
     
     def query2(self, entity, rel=None):
-        ldecl = [d for d in self.query_local(e1 = entity, rel = rel)]        
-        return ldecl + self.query(entity, rel)
+        lassoc = self.query(entity)
+        lsubt = [d for d in self.query_local(e1 = entity, rel = rel) if isinstance(d.relation, Subtype)]
+        lmemb = [d for d in self.query_local(e1 = entity, rel = rel) if isinstance(d.relation, Member)]
+        
+        return lassoc + lsubt + lmemb
     
     def query_cancel(self, entity, assoc=None):
-        ldecl = [d for d in self.query_local(e1 = entity, rel = assoc)]
+        ldecl = [d for d in self.query_local(e1 = entity, rel = assoc)
+                 if isinstance(d.relation, Association)]
 
         if ldecl == []:
-            parents = [d.relation.entity2 for d in self.declarations if isinstance(d.relation, (Member, Subtype)) and d.relation.entity1 == entity]
-            for p in parents:
+            lparent = [d.relation.entity2 for d in self.declarations
+                       if entity == d.relation.entity1
+                       and not isinstance(d.relation, Association)]
+            for p in lparent:
                 ldecl += self.query_cancel(p, assoc)
+        return ldecl
+    
+    def query_down(self, entity, assoc=None):
+        ldecl = []
+        lchil = [d.relation.entity1 for d in self.declarations if isinstance(d.relation, Association) and d.relation.entity2 == entity]
+                    
+        for c in lchil:
+            ldecl += [d for d in self.query_local(e1=c, rel=assoc) if isinstance(d.relation, Association)]
+            ldecl += self.query_down(c, assoc)
         return ldecl
