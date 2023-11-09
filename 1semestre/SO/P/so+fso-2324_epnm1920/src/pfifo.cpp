@@ -43,7 +43,7 @@ void insert_pfifo(PriorityFIFO* pfifo, int id, int priority)
    mutex_lock(&pfifo->mutex);
    while(full_pfifo(pfifo))
    {
-      cond_wait(&pfifo->notFull, &pfifo->mutex);
+      cond_wait(&pfifo->notFull, NULL);
    }
 
    require (!full_pfifo(pfifo), "full FIFO");  // IMPORTANT: in a shared fifo, it may not result from a program error!
