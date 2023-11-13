@@ -16,7 +16,8 @@ def genkey(size):
     return private_key
 
 if __name__ == "__main__":
-    if(len(sys.argv) != 4):
+    
+    if (len(sys.argv) != 4):
         print("a_keygen pubkey_file privkey_file 2048") 
         
     privkey = genkey(sys.argv[3])
@@ -39,3 +40,7 @@ if __name__ == "__main__":
     with open(sys.argv[1], 'wb') as fwr:
         fwr.write(pem)
         
+#-----------------------------------------------------------------------#
+# COMANDO PARA EXECUTAR O PROGRAMA:                                     #
+# time python keygen.py ./pub.txt ./priv.txt 4096                       #
+#-----------------------------------------------------------------------#
