@@ -190,10 +190,12 @@ class SemanticNetwork:
         return ldecl
     
     def query_down(self, entity, assoc=None):
-        ldecl = []
-        lchil = [d.relation.entity1 for d in self.declarations if isinstance(d.relation, Association) and d.relation.entity2 == entity]
-                    
-        for c in lchil:
-            ldecl += [d for d in self.query_local(e1=c, rel=assoc) if isinstance(d.relation, Association)]
+        ldecl = [d for d in self.query_local(e1 = entity, rel = assoc)
+                 if isinstance(d.relation, Association)]
+        lchild = [d.relation.entity1 for d in self.declarations
+                  if entity == d.relation.entity2
+                  and not isinstance(d.relation, Association)]
+        
+        for c in lchild:
             ldecl += self.query_down(c, assoc)
         return ldecl
