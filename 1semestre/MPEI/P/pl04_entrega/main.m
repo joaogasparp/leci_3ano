@@ -2,7 +2,7 @@ clear;
 clc;
 
 rest = readcell('restaurantes.txt', 'Delimiter', '\t');
-file = load("utilizadores.data");
+file = load("utilizadores.data")
 userIDs = (file(:,1));
 data = load("dados.mat");
 id = 0;
