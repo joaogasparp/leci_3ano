@@ -8,18 +8,34 @@ public class ex03 {
         Stack<Double> stack = new Stack<Double>();
 
         while(input.hasNext()) {
-            if(inpit.hasNextDouble()) {
+            if(input.hasNextDouble()) {
                 stack.push(input.nextDouble());
             } else {
                 double n1, n2, result = 0.0;
-                if 
-            }
-        }
+                String op = input.next();
 
+                n2 = stack.peek();
+                stack.pop();
+
+                n1 = stack.peek();
+                stack.pop();
+
+                switch(op) {
+                    case "+": result = n1 + n2; break;
+                    case "-": result = n1 - n2; break;
+                    case "*": result = n1 * n2; break;
+                    case "/": result = n1 / n2; break;
+                }
+
+                stack.push(result);
+            }
+            System.out.print("Stack: " + stack);
+            System.out.println();
+        }
+        System.out.println("Result: " + stack.pop());
     }
 
     public static boolean isOperator(String str) {
-        return str.equals("+") ||
+        return str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/");
     }
-
 }
