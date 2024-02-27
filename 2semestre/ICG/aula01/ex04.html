@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archery Game</title>
+    <title>Driving on the Road</title>
     <style>
         body {
             margin: 0;
@@ -14,19 +14,20 @@
 </head>
 
 <body>
-    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
-	<script type="importmap">
-		{
-    		"imports": {
-     			 "three": "https://threejs.org/build/three.module.js",
-				  "three/orbitcontrols": "https://threejs.org/examples/jsm/controls/OrbitControls.js"
-    		}
-  		}
-	</script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://threejs.org/build/three.module.js",
+                "three/orbitcontrols": "https://threejs.org/examples/jsm/controls/OrbitControls.js"
+            }
+        }
+    </script>
+
     <script type="module">
+
         import * as THREE from 'three';
-		import { OrbitControls } from 'three/orbitcontrols';
-        
+        import { OrbitControls } from 'three/orbitcontrols';
+
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer();
@@ -39,85 +40,78 @@
         controls.screenSpacePanning = false;
         controls.maxPolarAngle = Math.PI / 2;
 
-        const archer = new THREE.Group();
-        scene.add(archer);
+        // Create a road
+        const roadGeometry = new THREE.BoxGeometry(10, 0.1, 50);
+        const roadMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
+        const road = new THREE.Mesh(roadGeometry, roadMaterial);
+        scene.add(road);
 
-        const arrowGroup = new THREE.Group();
-        scene.add(arrowGroup);
+        // Create a car (representing the user)
+        const carGeometry = new THREE.BoxGeometry(1, 0.5, 2);
+        const carMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+        const car = new THREE.Mesh(carGeometry, carMaterial);
+        scene.add(car);
 
-        const targets = [];
+        // Set initial car position
+        car.position.z = -20;
 
-        // Archer
-        const archerGeometry = new THREE.BoxGeometry(1, 2, 1);
-        const archerMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-        const archerMesh = new THREE.Mesh(archerGeometry, archerMaterial);
-        archer.add(archerMesh);
+        // Set initial camera position to follow the car
+        camera.position.y = 2;
+        camera.position.z = -5;
+        car.add(camera); // Attach camera to the car
 
-        // Arrow
-        const arrowGeometry = new THREE.CylinderGeometry(0.05, 0.05, 2);
-        const arrowMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
-        
-        function createArrow() {
-            const arrowMesh = new THREE.Mesh(arrowGeometry, arrowMaterial);
-            arrowMesh.position.copy(archer.position);
-            arrowGroup.add(arrowMesh);
-            return arrowMesh;
+        // Handle keyboard input
+        const keys = { W: false, A: false, S: false, D: false };
+
+        document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('keyup', handleKeyUp);
+
+        function handleKeyDown(event) {
+            handleKey(event, true);
         }
 
-        // Targets
-        function createTarget() {
-            const targetGeometry = new THREE.BoxGeometry(1, 1, 1);
-            const targetMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-            const targetMesh = new THREE.Mesh(targetGeometry, targetMaterial);
-            targetMesh.position.x = (Math.random() - 0.5) * 10;
-            targetMesh.position.y = 1;
-            targetMesh.position.z = (Math.random() - 0.5) * 10;
-            scene.add(targetMesh);
-            targets.push(targetMesh);
+        function handleKeyUp(event) {
+            handleKey(event, false);
         }
 
-        // Initialize targets
-        for (let i = 0; i < 5; i++) {
-            createTarget();
-        }
-
-        camera.position.y = 5;
-        camera.position.z = 10;
-
-        document.addEventListener('keydown', function (event) {
-            if (event.code === 'Space') {
-                const arrow = createArrow();
-                const arrowSpeed = 0.1;
-                const arrowDirection = new THREE.Vector3(0, 0, -1);
-                arrowDirection.applyQuaternion(archer.quaternion);
-                arrow.userData = { speed: arrowSpeed, direction: arrowDirection };
+        function handleKey(event, value) {
+            const key = event.key.toUpperCase();
+            if (keys[key] !== undefined) {
+                keys[key] = value;
             }
-        });
+        }
+
+        function updateCar() {
+            const carSpeed = 0.1;
+
+            if (keys.W) {
+                car.position.z += carSpeed;
+            }
+            if (keys.S) {
+                car.position.z -= carSpeed;
+            }
+            if (keys.A) {
+                car.position.x -= carSpeed;
+            }
+            if (keys.D) {
+                car.position.x += carSpeed;
+            }
+        }
+
+        // Ambient light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        // Point light
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(5, 10, 5);
+        scene.add(pointLight);
 
         function render() {
             requestAnimationFrame(render);
             controls.update();
 
-            // Move arrows
-            arrowGroup.children.forEach((arrow) => {
-                if (arrow.userData) {
-                    arrow.position.addScaledVector(arrow.userData.direction, arrow.userData.speed);
-                }
-            });
-
-            // Check for arrow collisions with targets
-            arrowGroup.children.forEach((arrow) => {
-                targets.forEach((target) => {
-                    if (arrow.position.distanceTo(target.position) < 1) {
-                        // Arrow hit the target
-                        scene.remove(target);
-                        targets.splice(targets.indexOf(target), 1);
-                        
-                        // Remove arrow
-                        arrowGroup.remove(arrow);
-                    }
-                });
-            });
+            updateCar();
 
             renderer.render(scene, camera);
         }
