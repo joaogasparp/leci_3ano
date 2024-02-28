@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>three.js example 02 &mdash; A cube</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            background-color: #ffffff;
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                  "three": "https://threejs.org/build/three.module.js"
+            }
+          }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        
+        function addMengerSponge(scene, x, y, z, size, level) {
+            if (level <= 0) return;
+
+            const subSize = size / 3;
+            const geometry = new THREE.BoxGeometry(subSize, subSize, subSize);
+            const material = new THREE.MeshLambertMaterial({ color: 0xfff000 });
+
+            for(let dx = -1; dx <= 1; dx++) {
+                for(let dy = -1; dy <= 1; dy++) {
+                    for(let dz = -1; dz <= 1; dz++) {
+                        if((dx === 0 && dy === 0 && dz === 0) || 
+                        (dx === 0 && dy === 0) || 
+                        (dx === 0 && dz === 0) || 
+                        (dy === 0 && dz === 0)) {
+                            continue;
+                        }
+                        const cube = new THREE.Mesh(geometry, material);
+                        cube.position.set(x + dx * subSize, y + dy * subSize, z + dz * subSize);
+                        scene.add(cube);
+
+                        addMengerSponge(scene, x + dx * subSize, y + dy * subSize, z + dz * subSize, subSize, level - 1);
+                    }
+                }
+            }
+        }
+
+        function init() {
+            const scene = new THREE.Scene();
+
+            const cubeSize = 2;
+
+            // Aumente o tamanho para criar uma esponja de Menger maior
+            addMengerSponge(scene, 0, 0, 0, 60, 4); // 3 é o nível de recursão
+
+            const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+            // Ajuste a posição da câmera para ver a esponja de Menger inteira
+            camera.position.z = 200;
+            camera.lookAt(scene.position);
+            scene.add(camera);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            // Ajuste a posição da luz para iluminar a esponja de Menger inteira
+            directionalLight.position.set(20, 2, 5);
+            scene.add(directionalLight);
+
+    
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setClearColor(new THREE.Color(0x000000));
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+    
+            document.body.appendChild(renderer.domElement);
+    
+            renderer.render(scene, camera);
+        }
+        window.onload = init
+    </script>
+</body>
+</html>
