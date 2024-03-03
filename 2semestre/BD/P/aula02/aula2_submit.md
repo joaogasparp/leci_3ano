@@ -17,8 +17,35 @@ Considere um Sistema de Gestão de Stocks de uma empresa. O presente exercício 
 Identify the entities, attributes, and relationships of the database.
 
 ```
-... Write here your answer ...
+Produto: Codigo, Nome, Preco, TaxaIVA, Quantidade
+PK (primary key): Codigo
+FK(s): none
 
+TipoFornecedor: Codigo, Nome
+PK (primary key): Codigo
+FK(s): none
+
+CondicaoPagamento: Codigo, Condicao, Preco
+PK (primary key): Codigo
+FK(s): none
+
+Fornecedor: NIF, Nome, Morada, CondPag_Codigo, TipoForn_Codigo
+PK (primary key): NIF
+FK(s): CondPag_Codigo, TipoForn_Codigo
+
+Encomenda: Numero, Data, Fornecedor_Codigo
+PK (primary key): Numero
+FK(s): Fornecedor_Codigo
+
+OPÇÃO A)
+Items: Produto_Codigo, Encomenda_Numero, Quantidade
+PK (primary key): Produto_Codigo, Encomenda_Numero
+FK(s): Produto_Codigo, Encomenda_Numero
+
+OPÇÃO B)
+Items: id, Produto_Codigo, Encomenda_Numero, Quantidade
+PK (primary key): id
+FK(s): Produto_Codigo, Encomenda_Numero
 ```
 
 #### *b)* Caracterize as relações quanto ao grau, cardinalidade e obrigatoriedade de participação das instâncias das entidades no relacionamento.
