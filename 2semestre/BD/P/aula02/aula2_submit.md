@@ -25,15 +25,15 @@ TipoFornecedor: Codigo, Nome
 PK (primary key): Codigo
 FK(s): none
 
-CondicaoPagamento: Codigo, Condicao, Preco
+TipoPagamento: Nome, Codigo
 PK (primary key): Codigo
 FK(s): none
 
-Fornecedor: NIF, Nome, Morada, CondPag_Codigo, TipoForn_Codigo
+Fornecedor: NIF, Nome, Morada
 PK (primary key): NIF
-FK(s): CondPag_Codigo, TipoForn_Codigo
+FK(s): none
 
-Encomenda: Numero, Data, Fornecedor_Codigo
+Encomenda: Numero, Data
 PK (primary key): Numero
 FK(s): Fornecedor_Codigo
 
@@ -46,19 +46,47 @@ OPÇÃO B)
 Items: id, Produto_Codigo, Encomenda_Numero, Quantidade
 PK (primary key): id
 FK(s): Produto_Codigo, Encomenda_Numero
+
+Um fornecedor pode ter zero ou muitas encomendas (1:N)
+Cada encomenda pertence a um único fornecedor (N:1)
+Um item refere-se a um produto específico em uma encomenda (N:1 para produto e N:1 para encomenda)
+Um produto pode estar presente em zero ou muitos itens (1:N)
 ```
 
 #### *b)* Caracterize as relações quanto ao grau, cardinalidade e obrigatoriedade de participação das instâncias das entidades no relacionamento.
 Specify the relationships regarding the degree, cardinality and instances mandatory participation of the entities in the relationship.
 
 ```
-... Write here your answer ...
+Relação entre fornecedor e encomenda:
+- Grau: binário
+- Cardinalidade:
+    - Fornecedor para encomenda: 1:N
+    - Encomenda para fornecedor: N:1
+- Obrigatoriedade:
+    - Fornecedor para encomenda: Cada encomenda deve ter um fornecedor associado
+    - Encomenda para fornecedor: Cada fornecedor deve ter pelo menos uma encomenda associada
 
+Relação entre encomenda e items:
+- Grau: binário
+- Cardinalidade:
+    - Encomenda para items: 1:N
+    - Items para encomenda: N:1
+- Obrigatoriedade:
+    - Encomenda para items: Cada encomenda deve ter pelo menos um item associado
+    - Items para encomenda: Cada item deve estar associado a uma encomenda
+
+Relação entre produto e items:
+- Grau: binário
+- Cardinalidade:
+    - Produto para items: 1:N
+    - Items para produto: N:1
+- Obrigatoriedade:
+    - Items para produto: Cada item deve estar associado a um produto
 ```
 
 #### *c)* Desenvolva o desenho conceptual da base de dados com recurso a um diagrama entidade-relacionamento. Numa primeira fase, utilize lápis e papel para realizar o trabalho. Uma vez concluído o desenho em papel, transponha o diagrama para um formato eletrónico utilizando uma ferramenta gráfica como, por exemplo, o Microsoft Visio ou o Visual Paradigm.
 
-![ex_2_1!](ex_2_1.png "AnImage or PDF file")
+[ex_2_1](ex_2_1.pdf)
 
 ### Problema *2.2*
 
@@ -75,7 +103,7 @@ Considere um Sistema de Prescrição Eletrónica de Medicamentos com as seguinte
 
 #### *a)* Desenvolva o desenho conceptual da base de dados do Sistema de Prescrição Eletrónica de Medicamentos com recurso a um diagrama entidade-relacionamento.
 
-![ex_2_2!](ex_2_2.png "AnImage or PDF file")
+[ex_2_2](ex_2_2.pdf)
 
 ### Problema 2.3
 
@@ -92,7 +120,7 @@ Considere um Sistema de Gestão de Conferências com as seguintes característic
 
 #### *a)* Desenvolva o desenho conceptual da base de dados do Sistema de Gestão de Conferências com recurso a um diagrama entidade-relascionamento.
 
-![ex_2_3!](ex_2_3.png "AnImage or PDF file")
+[ex_2_3](ex_2_3.pdf)
 
 ### Problema 2.4
 
@@ -107,9 +135,9 @@ Considere um Sistema de Gestão de um ATL com as seguintes características:
 
 #### *a)* Desenvolva o desenho conceptual da base de dados do Sistema de Informação da Universidade com recurso a um diagrama entidade-relacionamento.
 
-![ex_2_4a!](ex_2_4a.png "AnImage or PDF file")
+[ex_2_4a](ex_2_4a.pdf)
 
 ### *b)* [Opcional] Continue a modelar o problema de forma a registar os processos financeiros (mensalidades, atividades, pagamentos, desconto família, etc). Defina os requisitos livremente.
 
-![ex_2_4b!](ex_2_4b.png "AnImage or PDF file")
+[ex_2_4b](ex_2_4b.pdf)
     
