@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<!--
+
+		threejs_ex_02_01.html
+
+		J. Madeira - March 2022 - Updated: April 2023
+
+		Adapted / simplified from the Learning Three.js book examples
+
+-->
+
+<head>
+
+	<title>three.js example</title>
+
+	<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+	<style>
+		body {
+
+			background-color: #ffffff;
+
+			/* To use the complete page */
+
+			margin: 0px;
+
+			overflow: hidden;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<!-- Div which will hold the renderer output -->
+
+	<div id="WebGL-output"> </div>
+
+	<!-- The library -->
+
+	<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+	<script type="importmap">
+		{
+    		"imports": {
+     			 "three": "https://threejs.org/build/three.module.js"
+    		}
+  		}
+	</script>
+
+	<!-- Javascript code that runs the Three.js example -->
+
+	<script type="module">
+
+		import * as THREE from 'three';
+
+		function init() {
+
+			// The SCENE
+			const scene = new THREE.Scene();
+
+			// The GROUND plane
+			const planeGeometry = new THREE.PlaneGeometry(60, 20);
+			const planeMaterial = new THREE.MeshPhongMaterial({ color: 0xcccccc, shininess: 30 });
+			const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+			plane.receiveShadow = true;
+
+			// Rotate and position the plane
+			plane.rotation.x = -0.5 * Math.PI; // TODO: What happens if you comment out this line of code?
+			plane.position.x = 15;
+			plane.position.y = 0;
+			plane.position.z = 0;
+			scene.add(plane);
+
+			// Add coordinate AXIS to the scene
+			const axes = new THREE.AxesHelper(20);
+			scene.add(axes);
+
+			// A CUBE
+			const cubeGeometry = new THREE.BoxGeometry(3, 3, 3);
+			const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000, shininess: 100 });
+			const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+			cube.castShadow = true; 
+			cube.receiveShadow = true;
+
+			// Position the cube and add it to the scene
+			// TODO: What happens if you comment out the next three lines of code?
+			cube.position.x = -8;
+			cube.position.y = 1.5;
+			cube.position.z = -3;
+			scene.add(cube);
+
+			// A SPHERE
+			const sphereGeometry = new THREE.SphereGeometry(3, 12, 12);
+			const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0x7777ff, shininess: 50 });
+			const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+			sphere.castShadow = true; 
+			sphere.receiveShadow = true;			
+
+			// Position the sphere and add it to the scene
+			// TODO: What happens if you comment out the next three lines of code?
+			sphere.position.x = 20;
+			sphere.position.y = 3;
+			sphere.position.z = 6;
+			// TODO; What happens if you increase or decrease the radius of the sphere?
+			scene.add(sphere);
+
+			// A CYLINDRE - 1
+			const cylinder1Geometry = new THREE.CylinderGeometry( 3, 3, 5.5, 12 ); 
+			const cylinder1Material = new THREE.MeshPhongMaterial( {color: 0xffff00, shininess: 70 } ); 
+			const cylinder1 = new THREE.Mesh( cylinder1Geometry, cylinder1Material ); 
+			cylinder1.castShadow = true; 
+			cylinder1.receiveShadow = true;
+			cylinder1.position.y = 2.8;
+			cylinder1.position.z = -3;
+			scene.add( cylinder1 );
+
+			// A TORUS
+			const torusGeometry = new THREE.TorusGeometry( 4.5, 1.8, 13, 50 ); 
+			const torusMaterial = new THREE.MeshPhongMaterial( { color: 0xFF2AFF, shininess: 80 } ); 
+			const torus = new THREE.Mesh( torusGeometry, torusMaterial ); 
+			torus.castShadow = true; 
+			torus.position.x = 10
+			torus.position.y = 7;
+			torus.position.z = -2;
+			scene.add( torus );
+
+			// A CONE
+			const coneGeometry = new THREE.ConeGeometry( 4, 12, 12 ); 
+			const coneMaterial = new THREE.MeshPhongMaterial( {color: 0x08FF08, shininess: 90 } );
+			const cone = new THREE.Mesh(coneGeometry, coneMaterial );
+			cone.castShadow = true; 
+			cone.receiveShadow = true;
+			cone.position.x = 30;
+			cone.position.y = 6;
+			cone.position.z = -3.5;
+			scene.add( cone );
+			cone.castShadow = true; 
+			cone.receiveShadow = true; 
+
+			// A CYLINDRE - 2
+			const cylinder2Geometry = new THREE.CylinderGeometry( 0.8, 3, 11, 12 ); 
+			const cylinder2Material = new THREE.MeshPhongMaterial( {color: 0x2A2AF5, shininess: 60 } ); 
+			const cylinder2 = new THREE.Mesh( cylinder2Geometry, cylinder2Material ); 
+			cylinder2.castShadow = true; 
+			cylinder2.receiveShadow = true;
+			cylinder2.position.x = 35;
+			cylinder2.position.y = 5.5;
+			cylinder2.position.z = 5;
+			scene.add( cylinder2 );
+
+			// The CAMERA
+			// --- Where the viewer is and how he is looking at the scene
+			const camera = new THREE.OrthographicCamera(-50, 50, 30, -20, 1, 100);
+
+			// Position the camera
+			camera.position.x = -30;
+			camera.position.y = 40;
+			camera.position.z = 30;
+
+			// Point the camera to the center of the scene
+			camera.lookAt(scene.position);
+			scene.add(camera)
+
+			// The RENDERER --- To display the scene on the Web page
+			const renderer = new THREE.WebGLRenderer({ antialias: true });
+			renderer.setClearColor(new THREE.Color(0xffffff));
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			renderer.shadowMap.enabled = true;
+
+			// SpotLight
+			const light = new THREE.SpotLight(0xffffff, 10000);
+			light.position.set(-40, 60, -10);
+			light.castShadow = true;
+			scene.add(light);
+
+			// Add the output of the renderer to the html element
+			document.getElementById("WebGL-output").appendChild(renderer.domElement);
+
+			var step = 0; 
+			// Update model features and render the scene 
+			renderScene() 
+			
+			function renderScene() { 
+				// Rotate the cube around its axes 
+				cube.rotation.x += 0.02; 
+				cube.rotation.y += 0.02; 
+				cube.rotation.z += 0.02; 
+			
+				step += 0.04; 
+				// Bounce the sphere up and down 
+				sphere.position.x = 20 + (10 * Math.cos(step)); 
+				sphere.position.y = 3 + (10 * Math.abs(Math.sin(step))); 
+
+				torus.rotation.x += 0.02;
+
+				cylinder1.position.z = -3 + (10 * Math.abs(Math.sin(step)));
+				
+				// Render using requestAnimationFrame 
+				requestAnimationFrame(renderScene); 
+				renderer.render(scene, camera); 
+			}
+		}
+
+		function onResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
+
+		window.addEventListener('resize', onResize, false);
+
+		window.onload = init
+
+	</script>
+
+</body>
+
+</html>
