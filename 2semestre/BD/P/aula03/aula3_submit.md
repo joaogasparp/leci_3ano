@@ -37,7 +37,7 @@ Chave(s) Estrangeira(s) (FKs): TVcodigo
 Aluguer:
 Chaves Candidatas: Matricula
 Chaves Primária (PK): Matricula
-Chave(s) Estrangeira(s) (FKs):
+Chave(s) Estrangeira(s) (FKs): client_nif, balcao_numero veiculo_matricula
 
 TipoVeiculo:
 Chaves Candidatas: codigo
