@@ -185,18 +185,31 @@ public class SuffixCalculatorParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ExprContext extends ParserRuleContext {
-		public Token op;
+		public ExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_expr; }
+	 
+		public ExprContext() { }
+		public void copyFrom(ExprContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class ExprNumberContext extends ExprContext {
 		public TerminalNode Number() { return getToken(SuffixCalculatorParser.Number, 0); }
+		public ExprNumberContext(ExprContext ctx) { copyFrom(ctx); }
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class ExprSuffixContext extends ExprContext {
+		public Token op;
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public ExprContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_expr; }
+		public ExprSuffixContext(ExprContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ExprContext expr() throws RecognitionException {
@@ -216,6 +229,10 @@ public class SuffixCalculatorParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
+			_localctx = new ExprNumberContext(_localctx);
+			_ctx = _localctx;
+			_prevctx = _localctx;
+
 			setState(20);
 			match(Number);
 			}
@@ -229,17 +246,17 @@ public class SuffixCalculatorParser extends Parser {
 					_prevctx = _localctx;
 					{
 					{
-					_localctx = new ExprContext(_parentctx, _parentState);
+					_localctx = new ExprSuffixContext(new ExprContext(_parentctx, _parentState));
 					pushNewRecursionContext(_localctx, _startState, RULE_expr);
 					setState(22);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 					setState(23);
 					expr(0);
 					setState(24);
-					((ExprContext)_localctx).op = _input.LT(1);
+					((ExprSuffixContext)_localctx).op = _input.LT(1);
 					_la = _input.LA(1);
 					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 30L) != 0)) ) {
-						((ExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						((ExprSuffixContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 					}
 					else {
 						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
