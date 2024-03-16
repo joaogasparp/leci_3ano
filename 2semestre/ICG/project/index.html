@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo de Tiro 3D</title>
+    <title>ICG - project</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
@@ -16,8 +16,9 @@
 
         // Configuração da cena
         const scene = new THREE.Scene();
-        const renderer = new THREE.WebGLRenderer();
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true; // Habilita sombras no renderizador
         document.body.appendChild(renderer.domElement);
 
         // Adiciona uma câmara do jogador
@@ -28,20 +29,189 @@
         // Adiciona uma luz direcional
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
         directionalLight.position.set(1, 1, 1).normalize();
+        directionalLight.castShadow = true; // Habilita sombras na luz direcional
         scene.add(directionalLight);
 
         // Adiciona um chão à cena
         const groundGeometry = new THREE.PlaneGeometry(50, 50, 10, 10);
-        const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x808080, side: THREE.DoubleSide });
+        const groundMaterial = new THREE.MeshPhongMaterial({ color: 0x22B14C, side: THREE.DoubleSide }); // Altera para MeshPhongMaterial para receber sombras
         const ground = new THREE.Mesh(groundGeometry, groundMaterial);
         ground.rotation.x = -Math.PI / 2; // Rotação para que o plano fique paralelo ao eixo X
+        ground.receiveShadow = true; // Habilita o chão para receber sombras
         scene.add(ground);
 
         // Adiciona um jogador controlado pelo utilizador
         const playerGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-        const playerMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const playerMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
         const player = new THREE.Mesh(playerGeometry, playerMaterial);
         scene.add(player);
+
+        const playerHeight = 2.5;
+
+        function createTree() {
+          // Gera um fator de escala aleatório para a altura da árvore
+          const heightScale = Math.random() * 0.5 + 0.75; // Gera um número aleatório entre 0.75 e 1.25
+
+          // Gera cores aleatórias para o tronco e as folhas
+          const trunkColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+          const leafColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+
+          // Cria o tronco da árvore com altura duas vezes a altura do jogador, escalada pelo fator de altura
+          const cylinderRadius = playerHeight / 4;
+          const cylinderHeight = playerHeight * 2 * heightScale;
+          const cylinderGeometry = new THREE.CylinderGeometry(cylinderRadius, cylinderRadius, cylinderHeight, 32);
+          const brownMaterial = new THREE.MeshPhongMaterial({ color: trunkColor, shininess: 100 });
+          const cylinder = new THREE.Mesh(cylinderGeometry, brownMaterial);
+          cylinder.position.y = cylinderHeight / 2.0;
+
+          // Cria o cone da árvore com altura três vezes a altura do jogador, escalada pelo fator de altura
+          const baseConeRadius = playerHeight / 2;
+          const coneHeight = playerHeight * 3 * heightScale;
+          const coneGeometry = new THREE.ConeGeometry(baseConeRadius, coneHeight, 32);
+          const greenMaterial = new THREE.MeshPhongMaterial({ color: leafColor, shininess: 100  });
+          const cone = new THREE.Mesh(coneGeometry, greenMaterial);
+          cone.position.y = cylinderHeight + coneHeight / 2.0;
+
+          // Agrupa o tronco e o cone para formar a árvore
+          const tree = new THREE.Group();
+          tree.add(cylinder);
+          tree.add(cone);
+          tree.castShadow = true;
+          tree.receiveShadow = true;
+          return tree;
+        }
+
+        function createForest() {
+          const forest = new THREE.Group();
+          const numTrees = 50;
+          const forestSize = 50;
+          const minDistanceBetweenTrees = 5;
+
+          for (let i = 0; i < numTrees; i++) {
+            let tree = createTree();
+            let position;
+            while (true) {
+              position = {
+                x: Math.random() * forestSize - forestSize / 2,
+                z: Math.random() * forestSize - forestSize / 2
+              };
+
+              let isFarEnough = true;
+              for (let j = 0; j < forest.children.length; j++) {
+                const otherTree = forest.children[j];
+                const distance = Math.sqrt(
+                  Math.pow(position.x - otherTree.position.x, 2) +
+                  Math.pow(position.z - otherTree.position.z, 2)
+                );
+                if (distance < minDistanceBetweenTrees) {
+                  isFarEnough = false;
+                  break;
+                }
+              }
+              if (isFarEnough) {
+                break;
+              }
+            }
+            tree.position.x = position.x;
+            tree.position.z = position.z;
+            forest.add(tree);
+          }
+          return forest;
+        }
+
+        // Adiciona a floresta à cena
+        const forest = createForest();
+        scene.add(forest);
+
+        function createRock() {
+          // Gera um fator de escala aleatório para o tamanho da pedra
+          const sizeScale = Math.random() * 0.5 + 0.25; // Gera um número aleatório entre 0.25 e 0.75
+
+          const rockColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+
+          // Cria a pedra com um tamanho baseado na altura do jogador, escalado pelo fator de tamanho
+          const rockRadius = playerHeight / 8 * sizeScale;
+          
+          // Cria uma meia esfera (meia lua) em vez de uma esfera completa
+          const rockGeometry = new THREE.SphereGeometry(rockRadius, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2);
+          
+          const rockMaterial = new THREE.MeshPhongMaterial({ color: rockColor, shininess: 100 });
+          const rock = new THREE.Mesh(rockGeometry, rockMaterial);
+          rock.position.y = 0; // Posiciona a pedra para que ela esteja no chão, não abaixo dele
+          rock.castShadow = true;
+          rock.receiveShadow = true;
+          return rock;
+        }
+
+        function createRocks() {
+          const rocks = new THREE.Group();
+          const numRocks = 100;
+          const rocksAreaSize = 50;
+          const minDistanceBetweenRocks = 2;
+
+          for (let i = 0; i < numRocks; i++) {
+            let rock = createRock();
+            let position;
+            while (true) {
+              position = {
+                x: Math.random() * rocksAreaSize - rocksAreaSize / 2,
+                z: Math.random() * rocksAreaSize - rocksAreaSize / 2,
+              };
+
+              let isFarEnough = true;
+              for (let j = 0; j < rocks.children.length; j++) {
+                const otherRock = rocks.children[j];
+                const distance = Math.sqrt(
+                  Math.pow(position.x - otherRock.position.x, 2) +
+                  Math.pow(position.z - otherRock.position.z, 2)
+                );
+                if (distance < minDistanceBetweenRocks) {
+                  isFarEnough = false;
+                  break;
+                }
+              }
+              if (isFarEnough) {
+                break;
+              }
+            }
+            rock.position.x = position.x;
+            rock.position.z = position.z;
+            rocks.add(rock);
+          }
+          return rocks;
+        }
+
+        // Adiciona as pedras à cena
+        const rocks = createRocks();
+        scene.add(rocks);
+
+        function createStars() {
+          const stars = new THREE.Group();
+          const starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }); // Cor branca para as estrelas
+          const numStars = 2000; // Número de estrelas a serem criadas
+
+          for (let i = 0; i < numStars; i++) {
+              const starGeometry = new THREE.SphereGeometry(Math.random() * 0.25, 12, 12); // Tamanho aleatório para as estrelas
+              const star = new THREE.Mesh(starGeometry, starMaterial);
+
+              // Posiciona as estrelas aleatoriamente no céu
+              star.position.set(
+                  (Math.random() - 0.5) * 1000, // Posição x aleatória
+                  Math.random() * 500 + 50, // Posição y aleatória (acima do chão)
+                  (Math.random() - 0.5) * 1000 // Posição z aleatória
+              );
+
+              stars.add(star);
+          }
+
+          return stars;
+        }
+
+        // Adiciona as estrelas à cena
+        const stars = createStars();
+        scene.add(stars);
+
+        
 
         // Posiciona o jogador inicialmente
         player.position.set(0, 0.5, 0);
@@ -60,6 +230,11 @@
           controls.lock();
         }, false);
 
+        // Variáveis para controle de pulo
+        let canJump = true;
+        const jumpSpeed = 0.3;
+        let verticalSpeed = 0;
+
         // Função para atualizar a posição do jogador com base nos controlos do teclado
         const direction = new THREE.Vector3();
         function updatePlayerPosition() {
@@ -77,6 +252,25 @@
           if (keyboard[83]) player.position.addScaledVector(direction, -speed); // S
           if (keyboard[65]) player.position.addScaledVector(new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), direction), speed); // A
           if (keyboard[68]) player.position.addScaledVector(new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), direction), -speed); // D
+
+          // Verifica se a tecla de espaço foi pressionada e se o jogador pode pular
+          if (keyboard[32] && canJump) { // Space
+            verticalSpeed = jumpSpeed;
+            canJump = false;
+          }
+
+          // Aplica a velocidade vertical (pulo e gravidade)
+          player.position.y += verticalSpeed;
+
+          // Aplica a gravidade
+          verticalSpeed -= 0.01;
+
+          // Verifica se o jogador está no chão
+          if (player.position.y <= 0.5) {
+            player.position.y = 0.5;
+            canJump = true;
+            verticalSpeed = 0;
+          }
         }
 
         // Função de renderização
