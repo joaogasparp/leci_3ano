@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Tiro 3D</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script type="module">
+        import * as THREE from 'https://cdn.skypack.dev/three@0.134.0/build/three.module.js';
+        import { PointerLockControls } from 'https://cdn.skypack.dev/three@0.134.0/examples/jsm/controls/PointerLockControls.js';
+
+        // Configuração da cena
+        const scene = new THREE.Scene();
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Adiciona uma câmara do jogador
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const controls = new PointerLockControls(camera, renderer.domElement);
+        scene.add(controls.getObject());
+
+        // Adiciona uma luz direcional
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        // Adiciona um chão à cena
+        const groundGeometry = new THREE.PlaneGeometry(50, 50, 10, 10);
+        const groundMaterial = new THREE.MeshBasicMaterial({ color: 0x808080, side: THREE.DoubleSide });
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        ground.rotation.x = -Math.PI / 2; // Rotação para que o plano fique paralelo ao eixo X
+        scene.add(ground);
+
+        // Adiciona um jogador controlado pelo utilizador
+        const playerGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const playerMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const player = new THREE.Mesh(playerGeometry, playerMaterial);
+        scene.add(player);
+
+        // Posiciona o jogador inicialmente
+        player.position.set(0, 0.5, 0);
+
+        // Adiciona event listeners para as teclas de seta ou WASD
+        const keyboard = {};
+        document.addEventListener('keydown', (event) => {
+          keyboard[event.keyCode] = true;
+        });
+        document.addEventListener('keyup', (event) => {
+          keyboard[event.keyCode] = false;
+        });
+
+        // Adiciona um evento de clique ao documento para ativar o bloqueio do cursor
+        document.addEventListener('click', function () {
+          controls.lock();
+        }, false);
+
+        // Função para atualizar a posição do jogador com base nos controlos do teclado
+        const direction = new THREE.Vector3();
+        function updatePlayerPosition() {
+          const speed = 0.1; // Velocidade de movimento do jogador
+
+          // Atualiza a direção com base no movimento do mouse
+          controls.getDirection(direction);
+
+          // Ignora a componente y da direção
+          direction.y = 0;
+          direction.normalize();
+
+          // Verifica as teclas pressionadas e atualiza a posição do jogador
+          if (keyboard[87]) player.position.addScaledVector(direction, speed); // W
+          if (keyboard[83]) player.position.addScaledVector(direction, -speed); // S
+          if (keyboard[65]) player.position.addScaledVector(new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), direction), speed); // A
+          if (keyboard[68]) player.position.addScaledVector(new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), direction), -speed); // D
+        }
+
+        // Função de renderização
+        function animate() {
+          requestAnimationFrame(animate);
+
+          // Atualiza a posição do jogador com base nos controlos do teclado
+          updatePlayerPosition();
+
+          // Atualiza a posição da câmara para seguir o jogador
+          camera.position.copy(player.position);
+          camera.position.y += 1.5; // Ajusta a altura da câmara para estar acima do jogador
+
+          renderer.render(scene, camera); // Renderiza usando a câmara do jogador
+        }
+
+        animate();
+    </script>
+</body>
+</html>
