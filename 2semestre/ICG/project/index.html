@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICG - project</title>
     <style>
-        body { margin: 0; }
-        canvas { display: block; }
+        body {
+          background-color: #216993;
+          margin: 0px;
+          overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -26,15 +29,44 @@
         const controls = new PointerLockControls(camera, renderer.domElement);
         scene.add(controls.getObject());
 
-        // Adiciona uma luz direcional
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1).normalize();
-        directionalLight.castShadow = true; // Habilita sombras na luz direcional
-        scene.add(directionalLight);
+        // Adicionando luz ambiente com controle de intensidade
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.17); // Intensidade inicial: 0.5
+        scene.add(ambientLight);
+        
+        function createScene() {
+          // Adicionando luz direcional com controle de posição e intensidade
+          const directional1Light = new THREE.DirectionalLight(0xffffff, 1.3); // Intensidade inicial: 1
+          directional1Light.position.set(100, 200, 100);
+          scene.add(directional1Light);
+
+          // Adicionando uma esfera para representar visualmente o sol
+          const sun1Geometry = new THREE.SphereGeometry(20, 100, 100);
+          const sun1Material = new THREE.MeshPhongMaterial({ emissive: 0xffff00, emissiveIntensity: 1.3 });
+          const sun1 = new THREE.Mesh(sun1Geometry, sun1Material);
+          sun1.position.set(100, 200, 100);
+          scene.add(sun1);
+
+          const saturnGeometry = new THREE.SphereGeometry(20, 100, 100);
+          const saturnMaterial = new THREE.MeshPhongMaterial({ color: 0xB8A58A});
+          const saturn = new THREE.Mesh(saturnGeometry, saturnMaterial);
+          saturn.position.set(-100, 120, 70);
+          scene.add(saturn);
+
+          const meshGeometry = new THREE.RingGeometry( 20, 30, 100 ); 
+          const meshMaterial = new THREE.MeshPhongMaterial( { color: 0xB8A58A, side: THREE.DoubleSide } );
+          const mesh = new THREE.Mesh( meshGeometry, meshMaterial ); 
+          mesh.position.set(-100, 120, 70);
+          scene.add( mesh );
+
+          return scene;
+        }
+
+        const sceneGroup = createScene();
+    		scene.add(sceneGroup)
 
         // Adiciona um chão à cena
-        const groundGeometry = new THREE.PlaneGeometry(50, 50, 10, 10);
-        const groundMaterial = new THREE.MeshPhongMaterial({ color: 0x22B14C, side: THREE.DoubleSide }); // Altera para MeshPhongMaterial para receber sombras
+        const groundGeometry = new THREE.PlaneGeometry(200, 200, 10, 10);
+        const groundMaterial = new THREE.MeshPhongMaterial({ color: 0x223913, side: THREE.DoubleSide }); // Altera para MeshPhongMaterial para receber sombras
         const ground = new THREE.Mesh(groundGeometry, groundMaterial);
         ground.rotation.x = -Math.PI / 2; // Rotação para que o plano fique paralelo ao eixo X
         ground.receiveShadow = true; // Habilita o chão para receber sombras
@@ -53,8 +85,8 @@
           const heightScale = Math.random() * 0.5 + 0.75; // Gera um número aleatório entre 0.75 e 1.25
 
           // Gera cores aleatórias para o tronco e as folhas
-          const trunkColor = new THREE.Color(Math.random(), Math.random(), Math.random());
-          const leafColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+          const trunkColor = new THREE.Color(0x6F4118);
+          const leafColor = new THREE.Color(0x3A6919);
 
           // Cria o tronco da árvore com altura duas vezes a altura do jogador, escalada pelo fator de altura
           const cylinderRadius = playerHeight / 4;
@@ -83,8 +115,8 @@
 
         function createForest() {
           const forest = new THREE.Group();
-          const numTrees = 50;
-          const forestSize = 50;
+          const numTrees = 300;
+          const forestSize = 200;
           const minDistanceBetweenTrees = 5;
 
           for (let i = 0; i < numTrees; i++) {
@@ -127,7 +159,7 @@
           // Gera um fator de escala aleatório para o tamanho da pedra
           const sizeScale = Math.random() * 0.5 + 0.25; // Gera um número aleatório entre 0.25 e 0.75
 
-          const rockColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+          const rockColor = new THREE.Color(0x363636);
 
           // Cria a pedra com um tamanho baseado na altura do jogador, escalado pelo fator de tamanho
           const rockRadius = playerHeight / 8 * sizeScale;
@@ -145,8 +177,8 @@
 
         function createRocks() {
           const rocks = new THREE.Group();
-          const numRocks = 100;
-          const rocksAreaSize = 50;
+          const numRocks = 700;
+          const rocksAreaSize = 200;
           const minDistanceBetweenRocks = 2;
 
           for (let i = 0; i < numRocks; i++) {
@@ -191,7 +223,7 @@
           const numStars = 2000; // Número de estrelas a serem criadas
 
           for (let i = 0; i < numStars; i++) {
-              const starGeometry = new THREE.SphereGeometry(Math.random() * 0.25, 12, 12); // Tamanho aleatório para as estrelas
+              const starGeometry = new THREE.SphereGeometry(Math.random() * 0.5, 12, 12); // Tamanho aleatório para as estrelas
               const star = new THREE.Mesh(starGeometry, starMaterial);
 
               // Posiciona as estrelas aleatoriamente no céu
@@ -210,8 +242,6 @@
         // Adiciona as estrelas à cena
         const stars = createStars();
         scene.add(stars);
-
-        
 
         // Posiciona o jogador inicialmente
         player.position.set(0, 0.5, 0);
