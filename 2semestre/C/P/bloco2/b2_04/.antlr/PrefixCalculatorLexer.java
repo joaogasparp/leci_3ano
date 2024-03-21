@@ -1,4 +1,4 @@
-// Generated from SuffixCalculator.g4 by ANTLR 4.13.1
+// Generated from /home/joao/Desktop/leci_3ano/2semestre/C/P/bloco2/b2_04/PrefixCalculator.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
-public class SuffixCalculatorLexer extends Lexer {
+public class PrefixCalculatorLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.13.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -78,13 +78,13 @@ public class SuffixCalculatorLexer extends Lexer {
 	}
 
 
-	public SuffixCalculatorLexer(CharStream input) {
+	public PrefixCalculatorLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "SuffixCalculator.g4"; }
+	public String getGrammarFileName() { return "PrefixCalculator.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
