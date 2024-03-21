@@ -63,6 +63,18 @@ public interface CalculatorListener extends ParseTreeListener {
 	 */
 	void exitExprParent(CalculatorParser.ExprParentContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code ExprUnary}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprUnary(CalculatorParser.ExprUnaryContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExprUnary}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprUnary(CalculatorParser.ExprUnaryContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code ExprInteger}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree

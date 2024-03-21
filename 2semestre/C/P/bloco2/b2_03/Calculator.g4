@@ -4,7 +4,8 @@ program: stat* EOF;
 
 stat: expr? NEWLINE;
 
-expr: expr op=('*'|'/'|'%') expr    #ExprMulDivMod
+expr: op=('+'|'-') expr             #ExprUnary
+    | expr op=('*'|'/'|'%') expr    #ExprMulDivMod
     | expr op=('+'|'-') expr        #ExprAddSub
     | Integer                       #ExprInteger
     | '(' expr ')'                  #ExprParent

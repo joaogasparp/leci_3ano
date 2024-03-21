@@ -7,7 +7,16 @@ antlr4-run		//echo "hello bye algo joao" | antlr4-run
 antlr4-clean
 
 
-
+1º -> antlr4-build
+2º -> echo "2 2 + 2 *" | antlr4-test -tree  (para ver a árvore)
+ou
+2º -> echo "2 2 + 2 *" | antlr4-test -gui   (para ver a árvore gráfica)
+3º -> antlr4-visitor SuffixCalculator Interpreter Double
+4º -> antlr4-main SuffixCalculator program -v Interpreter
+5º -> antlr4-build
+6º -> echo "2 2 + 2 *" | antlr4-run     (caso de linha a linha)
+ou
+6º -> antlr4-run < input.txt            (caso de ficheiro)
 
 
 #Exemplo: ex2 (correto)

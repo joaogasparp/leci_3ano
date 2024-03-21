@@ -43,6 +43,13 @@ public interface CalculatorVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExprParent(CalculatorParser.ExprParentContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ExprUnary}
+	 * labeled alternative in {@link CalculatorParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprUnary(CalculatorParser.ExprUnaryContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ExprInteger}
 	 * labeled alternative in {@link CalculatorParser#expr}.
 	 * @param ctx the parse tree
