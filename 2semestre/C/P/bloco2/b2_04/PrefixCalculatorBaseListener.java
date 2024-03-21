@@ -1,64 +1,64 @@
-// Generated from SuffixCalculator.g4 by ANTLR 4.13.1
+// Generated from PrefixCalculator.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
- * This class provides an empty implementation of {@link SuffixCalculatorListener},
+ * This class provides an empty implementation of {@link PrefixCalculatorListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
 @SuppressWarnings("CheckReturnValue")
-public class SuffixCalculatorBaseListener implements SuffixCalculatorListener {
+public class PrefixCalculatorBaseListener implements PrefixCalculatorListener {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProgram(SuffixCalculatorParser.ProgramContext ctx) { }
+	@Override public void enterProgram(PrefixCalculatorParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProgram(SuffixCalculatorParser.ProgramContext ctx) { }
+	@Override public void exitProgram(PrefixCalculatorParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStat(SuffixCalculatorParser.StatContext ctx) { }
+	@Override public void enterStat(PrefixCalculatorParser.StatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStat(SuffixCalculatorParser.StatContext ctx) { }
+	@Override public void exitStat(PrefixCalculatorParser.StatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExprNumber(SuffixCalculatorParser.ExprNumberContext ctx) { }
+	@Override public void enterExprPrefix(PrefixCalculatorParser.ExprPrefixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExprNumber(SuffixCalculatorParser.ExprNumberContext ctx) { }
+	@Override public void exitExprPrefix(PrefixCalculatorParser.ExprPrefixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExprSuffix(SuffixCalculatorParser.ExprSuffixContext ctx) { }
+	@Override public void enterExprNumber(PrefixCalculatorParser.ExprNumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExprSuffix(SuffixCalculatorParser.ExprSuffixContext ctx) { }
+	@Override public void exitExprNumber(PrefixCalculatorParser.ExprNumberContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
