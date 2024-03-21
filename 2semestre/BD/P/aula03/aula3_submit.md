@@ -37,7 +37,7 @@ Chave(s) Estrangeira(s) (FKs): TVcodigo
 Aluguer:
 Chaves Candidatas: Matricula
 Chaves Primária (PK): Matricula
-Chave(s) Estrangeira(s) (FKs):
+Chave(s) Estrangeira(s) (FKs): client_nif, balcao_numero veiculo_matricula
 
 TipoVeiculo:
 Chaves Candidatas: codigo
@@ -63,7 +63,7 @@ Chave(s) Estrangeira(s) (FKs): TVcodigo1, TVcodigo2
 ```
 AIRPORT: airport_code, state, city, name
 CAN_LAND: airport_code, airplane_type_name
-AIRPLANE_TYPE: type_name, max_seats, company
+AIRPLANE_TYPE: type_name, max_seats, companyairpla
 AIRPLANE: airplane_id, total_no_of_seats, airplane_type_name
 LEG_INSTANCE: date, no_of_avail_seats, airplane_id, departs_time, arrives_time
 FLIGHT: number, airline, weekdays
