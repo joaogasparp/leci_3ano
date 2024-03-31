@@ -1,12 +1,3 @@
-Comandos (ordenados pela maneira que se devem usar):
-antlr4-test		//echo "hello bye algo joao" | antlr4-test Hello greetings -gui/-tree
-antlr4-visitor		//antlr4-visitor Hello execute2 execute -> cria ficheiro .java execute2 do tipo execute para a gramátiva Hello
-antlr4-main		//antlr4-main Hello greetings -v Execute -> cria class main .java com o nome da gramática e a regra principal, bem como o visitor que queremos
-antlr4-build    	//compila o programa
-antlr4-run		//echo "hello bye algo joao" | antlr4-run
-antlr4-clean
-
-
 1º -> antlr4-build
 2º -> echo "2 2 + 2 *" | antlr4-test -tree  (para ver a árvore)
 ou
@@ -17,24 +8,3 @@ ou
 6º -> echo "2 2 + 2 *" | antlr4-run     (caso de linha a linha)
 ou
 6º -> antlr4-run < input.txt            (caso de ficheiro)
-
-
-#Exemplo: ex2 (correto)
-(fazer gramática)
-
-(testar gramática):
-echo "2 2 + 2 * " | antlr4-test -tree
-
-(criar visitor):
-antlr4-visitor SuffixCalculator Interpreter Double
-
-(alterar visitor para fazer o que a gramática pede (visitar labels e manipulá-las para darem resultados conforme a gramática comanda)
-
-(criar main):
-antlr4-main SuffixCalculator program -v Interpreter
-
-(compilar):
-antlr4-build
-
-(correr main)
-echo "2 2 + 2 *" | antlr4-run
