@@ -48,21 +48,21 @@
 ### *g)* 
 
 ```
-... Write here your answer ...
+σ dependent > 2 ( γ employee.Fname, employee.Minit, employee.Lname; COUNT(dependent.Essn)→dependent (dependent ⨝ dependent.Essn = employee.Ssn employee))
 ```
 
 
 ### *h)* 
 
 ```
-... Write here your answer ...
+π employee.Fname, employee.Minit, employee.Lname σ dependent.Essn = null (dependent ⟗ dependent.Essn = employee.Ssn employee ⨝ employee.Ssn = department.Mgr_ssn department)
 ```
 
 
 ### *i)* 
 
 ```
-... Write here your answer ...
+π employee.Fname, employee.Minit, employee.Lname, employee.Address σ project.Plocation = 'Aveiro' and dept_location.Dlocation ≠ 'Aveiro' (employee ⨝ employee.Ssn = works_on.Essn works_on ⨝ works_on.Pno = project.Pnumber project ⨝ employee.Dno = dept_location.Dnumber dept_location)
 ```
 
 
@@ -71,27 +71,27 @@
 ### *a)*
 
 ```
-... Write here your answer ...
+π fornecedor.nif, fornecedor.nome σ encomenda.numero = null (encomenda ⟗ encomenda.fornecedor = fornecedor.nif fornecedor)
 ```
 
 ### *b)* 
 
 ```
-... Write here your answer ...
+γ produto.codigo, produto.nome; AVG(item.unidades)→media_unidades (produto ⨝ produto.codigo = item.codProd item)
 ```
 
 
 ### *c)* 
 
 ```
-... Write here your answer ...
+γ ; AVG(unidadesPorEncomenda)→mediaProdutosPorEncomenda ( γ encomenda.numero; COUNT(item.codProd)→unidadesPorEncomenda (encomenda ⨝ encomenda.numero = item.numEnc item))
 ```
 
 
 ### *d)* 
 
 ```
-... Write here your answer ...
+γ fornecedor.nome, produto.nome; SUM(item.unidades)→quantidade (fornecedor ⨝ fornecedor.nif = encomenda.fornecedor encomenda ⨝ encomenda.numero = item.numEnc item ⨝ item.codProd = produto.codigo produto)
 ```
 
 
@@ -100,37 +100,37 @@
 ### *a)*
 
 ```
-... Write here your answer ...
+π paciente.numUtente, paciente.nome σ prescricao.numPresc = null (prescricao ⟗ prescricao.numUtente = paciente.numUtente paciente)
 ```
 
 ### *b)* 
 
 ```
-... Write here your answer ...
+γ medico.especialidade; COUNT(prescricao.numPresc)→num_prescricoes (medico ⨝ medico.numSNS = prescricao.numMedico prescricao)
 ```
 
 
 ### *c)* 
 
 ```
-... Write here your answer ...
+γ farmacia.nome; COUNT(prescricao.numPresc)→num_prescricoes (farmacia ⨝ farmacia.nome = prescricao.farmacia prescricao)
 ```
 
 
 ### *d)* 
 
 ```
-... Write here your answer ...
+π presc_farmaco.nomeFarmaco σ presc_farmaco.numRegFarm = 906 and prescricao.farmacia = null (prescricao ⨝ prescricao.numPresc = presc_farmaco.numPresc presc_farmaco)
 ```
 
 ### *e)* 
 
 ```
-... Write here your answer ...
+γ farmacia.nome, farmaceutica.nome; COUNT(farmaco.nome)→num_farmaco (farmaco ⨝ farmaco.numRegFarm = farmaceutica.numReg farmaceutica ⨝ farmaceutica.numReg = presc_farmaco.numRegFarm presc_farmaco ⨝ presc_farmaco.numPresc = prescricao.numPresc prescricao ⨝ prescricao.farmacia = farmacia.nome farmacia)
 ```
 
 ### *f)* 
 
 ```
-... Write here your answer ...
+σ countMedicos > 1 ( γ paciente.numUtente, paciente.nome; COUNT(medico.numSNS)→countMedicos ( γ paciente.numUtente, paciente.nome, medico.numSNS; COUNT(prescricao.numMedico)→countMedicos (medico ⨝ medico.numSNS = prescricao.numMedico prescricao ⨝ prescricao.numUtente = paciente.numUtente paciente)))
 ```
