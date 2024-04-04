@@ -1,5 +1,5 @@
 @SuppressWarnings("CheckReturnValue")
-public class Execute extends HelloBaseVisitor<String> {
+public class Interpreter extends HelloBaseVisitor<String> {
 
    @Override public String visitProgram(HelloParser.ProgramContext ctx) {
       String res = null;
