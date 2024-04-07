@@ -116,43 +116,87 @@ SELECT titles.type, AVG(advance) AS meanAdvance, MAX(advance) as maxAdvance
 ### *n)* Obter, para cada título, nome dos autores e valor arrecadado por estes com a sua venda;
 
 ```
-... Write here your answer ...
+SELECT titles.title_id, titles.title, authors.au_fname, authors.au_lname, (sales.qty * titles.price) AS valorTotal 
+	FROM authors JOIN titleauthor ON authors.au_id = titleauthor.au_id
+	JOIN titles ON titleauthor.title_id = titles.title_id
+	JOIN sales ON titles.title_id = sales.title_id;
 ```
 
 ### *o)* Obter uma lista que incluía o número de vendas de um título (ytd_sales), o seu nome, a faturação total, o valor da faturação relativa aos autores e o valor da faturação relativa à editora;
 
 ```
-... Write here your answer ...
+SELECT title, ytd_sales, (price * ytd_sales) AS facturacao, 
+(price * ytd_sales * titles.royalty / 100) AS auths_revenue, 
+((price * ytd_sales)-(price * ytd_sales * titles.royalty / 100)) AS publisher_revenue 
+    FROM titles
+    ORDER BY title;
 ```
 
 ### *p)* Obter uma lista que incluía o número de vendas de um título (ytd_sales), o seu nome, o nome de cada autor, o valor da faturação de cada autor e o valor da faturação relativa à editora;
 
 ```
-... Write here your answer ...
+SELECT title, ytd_sales, (au_fname + ' ' + au_lname) AS author,
+(price * ytd_sales * titles.royalty / 100) * royaltyper/100 AS auths_revenue, 
+((price * ytd_sales)-(price * ytd_sales * titles.royalty / 100)) AS publisher_revenue 
+    FROM titles JOIN titleauthor ON titles.title_id = titleauthor.title_id
+	JOIN authors ON titleauthor.au_id = authors.au_id
+    ORDER BY title, author;
 ```
 
 ### *q)* Lista de lojas que venderam pelo menos um exemplar de todos os livros;
 
 ```
-... Write here your answer ...
+SELECT s.stor_name, COUNT(DISTINCT t.title_id) AS numTitles
+	FROM titles AS t JOIN sales ON t.title_id = sales.title_id
+	JOIN stores AS s ON sales.stor_id = s.stor_id
+	GROUP BY s.stor_name
+	HAVING COUNT(DISTINCT t.title_id) = (SELECT COUNT(DISTINCT title_id) FROM titles);
+
 ```
 
 ### *r)* Lista de lojas que venderam mais livros do que a média de todas as lojas;
 
 ```
-... Write here your answer ...
+SELECT s.stor_name, SUM(sal.qty) AS numSales
+	FROM sales AS sal 
+	JOIN stores AS s ON sal.stor_id = s.stor_id
+	GROUP BY s.stor_name
+	HAVING SUM(sal.qty) > (
+		SELECT AVG(sub.qty)
+		FROM (
+			SELECT SUM(qty) AS qty
+			FROM sales
+			GROUP BY stor_id
+		) AS sub
+	);
 ```
 
 ### *s)* Nome dos títulos que nunca foram vendidos na loja “Bookbeat”;
 
 ```
-... Write here your answer ...
+SELECT title, stor_name
+	FROM titles JOIN sales ON titles.title_id = sales.title_id
+	JOIN stores ON sales.stor_id = stores.stor_id 
+	WHERE title NOT IN ( SELECT title
+							FROM titles JOIN sales ON titles.title_id = sales.title_id
+							JOIN stores ON sales.stor_id = stores.stor_id 
+							WHERE stor_name = 'Bookbeat');
 ```
 
 ### *t)* Para cada editora, a lista de todas as lojas que nunca venderam títulos dessa editora; 
 
 ```
-... Write here your answer ...
+SELECT pub_name, stor_name
+FROM publishers CROSS JOIN stores
+WHERE NOT EXISTS (
+    SELECT pub_name, stor_name
+    FROM publishers AS p
+    JOIN titles AS t ON p.pub_id = t.pub_id
+    JOIN sales AS s ON t.title_id = s.title_id
+    JOIN stores AS st ON s.stor_id = st.stor_id
+    WHERE p.pub_name = publishers.pub_name AND st.stor_name = stores.stor_name
+)
+ORDER BY pub_name;
 ```
 
 ## Problema 6.2
@@ -172,55 +216,87 @@ SELECT titles.type, AVG(advance) AS meanAdvance, MAX(advance) as maxAdvance
 ##### *a)*
 
 ```
-... Write here your answer ...
+SELECT employee.Fname, employee.Lname, employee.Ssn, project.Pname
+FROM employee
+JOIN works_on ON employee.Ssn = works_on.Essn
+JOIN project ON works_on.Pno = project.Pnumber;
 ```
 
 ##### *b)* 
 
 ```
-... Write here your answer ...
+SELECT employee.Fname, employee.Minit, employee.Lname
+FROM employee
+JOIN (SELECT Ssn FROM employee WHERE Fname = 'Carlos' AND Minit = 'D' AND Lname = 'Gomes') AS Chefe ON employee.Super_ssn = Chefe.Ssn;
 ```
 
 ##### *c)* 
 
 ```
-... Write here your answer ...
+SELECT project.Pname, SUM(works_on.Hours) AS totalHours
+FROM works_on
+JOIN project ON works_on.Pno = project.Pnumber
+GROUP BY project.Pname;
 ```
 
 ##### *d)* 
 
 ```
-... Write here your answer ...
+SELECT employee.Fname, employee.Minit, employee.Lname
+FROM employee
+JOIN works_on ON employee.Ssn = works_on.Essn
+JOIN project ON works_on.Pno = project.Pnumber
+WHERE employee.Dno = 3 AND works_on.Hours > 20 AND project.Pname = 'Aveiro Digital';
 ```
 
 ##### *e)* 
 
 ```
-... Write here your answer ...
+SELECT employee.Fname, employee.Minit, employee.Lname
+FROM employee
+LEFT JOIN works_on ON employee.Ssn = works_on.Essn
+WHERE works_on.Essn IS NULL;
 ```
 
 ##### *f)* 
 
 ```
-... Write here your answer ...
+SELECT department.Dname, AVG(employee.Salary) AS mediaSalary
+FROM employee
+JOIN department ON employee.Dno = department.Dnumber
+WHERE employee.Sex = 'F'
+GROUP BY department.Dname;
 ```
 
 ##### *g)* 
 
 ```
-... Write here your answer ...
+SELECT employee.Fname, employee.Minit, employee.Lname
+FROM dependent
+JOIN employee ON dependent.Essn = employee.Ssn
+GROUP BY employee.Fname, employee.Minit, employee.Lname
+HAVING COUNT(dependent.Essn) > 2;
 ```
 
 ##### *h)* 
 
 ```
-... Write here your answer ...
+SELECT employee.Fname, employee.Minit, employee.Lname
+FROM dependent
+RIGHT JOIN employee ON dependent.Essn = employee.Ssn
+JOIN department ON employee.Ssn = department.Mgr_ssn
+WHERE dependent.Essn IS NULL;
 ```
 
 ##### *i)* 
 
 ```
-... Write here your answer ...
+SELECT employee.Fname, employee.Minit, employee.Lname, employee.Address
+FROM employee
+JOIN works_on ON employee.Ssn = works_on.Essn
+JOIN project ON works_on.Pno = project.Pnumber
+JOIN dept_location ON employee.Dno = dept_location.Dnumber
+WHERE project.Plocation = 'Aveiro' AND dept_location.Dlocation <> 'Aveiro';
 ```
 
 ### 5.2
@@ -238,27 +314,44 @@ SELECT titles.type, AVG(advance) AS meanAdvance, MAX(advance) as maxAdvance
 ##### *a)*
 
 ```
-... Write here your answer ...
+SELECT fornecedor.nif, fornecedor.nome
+FROM fornecedor
+LEFT JOIN encomenda ON encomenda.fornecedor = fornecedor.nif
+WHERE encomenda.numero IS NULL;
 ```
 
 ##### *b)* 
 
 ```
-... Write here your answer ...
+SELECT produto.codigo, produto.nome, AVG(item.unidades) AS media_unidades
+FROM produto
+INNER JOIN item ON produto.codigo = item.codProd
+GROUP BY produto.codigo, produto.nome;
 ```
 
 
 ##### *c)* 
 
 ```
-... Write here your answer ...
+SELECT AVG(unidadesPorEncomenda) AS mediaProdutosPorEncomenda
+FROM (
+    SELECT encomenda.numero, COUNT(item.codProd) AS unidadesPorEncomenda
+    FROM encomenda
+    INNER JOIN item ON encomenda.numero = item.numEnc
+    GROUP BY encomenda.numero
+) AS subquery;
 ```
 
 
 ##### *d)* 
 
 ```
-... Write here your answer ...
+SELECT fornecedor.nome, produto.nome, SUM(item.unidades) AS quantidade
+FROM fornecedor
+INNER JOIN encomenda ON fornecedor.nif = encomenda.fornecedor
+INNER JOIN item ON encomenda.numero = item.numEnc
+INNER JOIN produto ON item.codProd = produto.codigo
+GROUP BY fornecedor.nome, produto.nome;
 ```
 
 ### 5.3
@@ -276,37 +369,60 @@ SELECT titles.type, AVG(advance) AS meanAdvance, MAX(advance) as maxAdvance
 ##### *a)*
 
 ```
-... Write here your answer ...
+SELECT paciente.numUtente, paciente.nome 
+FROM paciente 
+LEFT JOIN prescricao ON prescricao.numUtente = paciente.numUtente 
+WHERE prescricao.numPresc = IS NULL;
 ```
 
 ##### *b)* 
 
 ```
-... Write here your answer ...
+SELECT medico.especialidade, COUNT(prescricao.numPresc) AS num_prescricoes 
+FROM medico 
+INNER JOIN prescricao ON medico.numSNS = prescricao.numMedico 
+GROUP BY medico.especialidade;
 ```
 
 
 ##### *c)* 
 
 ```
-... Write here your answer ...
+SELECT farmacia.nome, COUNT(prescricao.numPresc) AS num_prescricoes 
+FROM farmacia 
+INNER JOIN prescricao ON farmacia.nome = prescricao.farmacia 
+GROUP BY farmacia.nome;
 ```
 
 
 ##### *d)* 
 
 ```
-... Write here your answer ...
+SELECT presc_farmaco.nomeFarmaco 
+FROM prescricao 
+INNER JOIN presc_farmaco ON prescricao.numPresc = presc_farmaco.numPresc 
+WHERE presc_farmaco.numRegFarm = 906 AND prescricao.farmacia IS NULL;
 ```
 
 ##### *e)* 
 
 ```
-... Write here your answer ...
+SELECT farmacia.nome, farmaceutica.nome, COUNT(farmaco.nome) AS num_farmaco 
+FROM farmaco 
+INNER JOIN farmaceutica ON farmaco.numRegFarm = farmaceutica.numReg 
+INNER JOIN presc_farmaco ON farmaceutica.numReg = presc_farmaco.numRegFarm 
+INNER JOIN prescricao ON presc_farmaco.numPresc = prescricao.numPresc 
+INNER JOIN farmacia ON prescricao.farmacia = farmacia.nome 
+GROUP BY farmacia.nome, farmaceutica.nome;
 ```
 
 ##### *f)* 
 
 ```
-... Write here your answer ...
+SELECT paciente.numUtente, paciente.nome 
+FROM paciente 
+INNER JOIN prescricao ON prescricao.numUtente = paciente.numUtente 
+INNER JOIN medico ON medico.numSNS = prescricao.numMedico 
+GROUP BY paciente.numUtente, paciente.nome 
+HAVING COUNT(DISTINCT medico.numSNS) > 1;
 ```
