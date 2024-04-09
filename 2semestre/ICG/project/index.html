@@ -13,6 +13,14 @@
     </style>
 </head>
 <body>
+  <div id="menu" style="display: none;">
+    <ul>
+        <li><a href="#">Item 1</a></li>
+        <li><a href="#">Item 2</a></li>
+        <li><a href="#">Item 3</a></li>
+        <!-- Adicione mais itens de menu conforme necessário -->
+    </ul>
+  </div>
     <script type="module">
         import * as THREE from 'https://cdn.skypack.dev/three@0.134.0/build/three.module.js';
         import { PointerLockControls } from 'https://cdn.skypack.dev/three@0.134.0/examples/jsm/controls/PointerLockControls.js';
@@ -302,6 +310,13 @@
             verticalSpeed = 0;
           }
         }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'e' || event.key === 'E') {
+                // Abra o menu aqui
+                document.getElementById('menu').style.display = 'block';
+            }
+        });
 
         // Função de renderização
         function animate() {
