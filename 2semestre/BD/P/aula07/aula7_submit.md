@@ -10,7 +10,7 @@ It is possible to <u>underline</u> -> {A, B,.. }
 -> R1 (_A_, B, C)
 -> R2 (B,F) -->
 ```
-A relação está na 1FN (Primeira Forma Normal).
+A relação está na 1FN (Primeira Forma Normal) uma vez que os seus atributos contêm apenas valores atômicos e não existem relações dentro de relações. Ou seja, cada valor num atributo deve ser indivisível e não pode haver tabelas dentro de tabelas ou conjuntos de valores num único atributo.
 ```
 
 
@@ -36,7 +36,8 @@ Depois, removemos os atributos que aparecem ao lado direito das dependências fu
 Ficamos com {A, B} como possíveis chaves.
 Verificamos se este conjunto determina todos os outros atributos e como determina, {A, B} é a chave.
 ```
-
+1FN:
+![ex_7_3_1fn!](ex_7_3_1fn.png "1FN")
 
 ### *b)* 
 
@@ -61,14 +62,24 @@ A chave de R é {A, B}.
 
 ### *b)* 
 
-2FN:
-![ex_7_4!](ex_7_4.png "2FN")
+1FN e 2FN:
+![ex_7_4_b_1fn_2fn!](ex_7_4_b_1fn_2fn.png "1FN e 2FN")
 
+3FN:
+![ex_7_4_b_3fn!](ex_7_4_b_3fn.png "3FN")
 
 ### *c)* 
 
 BCNF (Boyce-Codd Normal Form):
-![ex_7_4!](ex_7_4.png "BCNF")
+
+1FN:
+![ex_7_4_c_1fn!](ex_7_4_c_1fn.png "1FN")
+
+2FN:
+![ex_7_4_c_2fn!](ex_7_4_c_2fn.png "2FN")
+
+3FN:
+![ex_7_4_c_3fn!](ex_7_4_c_3fn.png "3FN")
 
 
 ## ​7.5
@@ -81,17 +92,21 @@ A chave de R é {A, B}.
 
 ### *b)* 
 
+1FN:
+![ex_7_5_1fn!](ex_7_5_1fn.png "1FN")
+
 2FN:
-![ex_7_5!](ex_7_5.png "2FN")
+![ex_7_5_2fn!](ex_7_5_2fn.png "2FN")
 
 
 ### *c)* 
 
-```
-Como não existem dependências transitivas, R já está na 3FN.
-```
+
+3FN:
+![ex_7_5_3fn_bcnf!](ex_7_5_3fn_bcnf.png "3FN")
+
 
 ### *d)* 
 
 BCNF:
-![ex_7_5!](ex_7_5.png "BCNF")
+![ex_7_5_3fn_bcnf!](ex_7_5_3fn_bcnf.png "BCNF")
