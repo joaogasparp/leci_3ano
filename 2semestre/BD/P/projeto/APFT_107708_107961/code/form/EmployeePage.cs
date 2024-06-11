@@ -167,30 +167,31 @@ namespace form
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string connectionString = "Data Source = tcp:mednat.ieeta.pt\\SQLSERVER,8101; Initial Catalog = p1g8; uid= p1g8; password = IrineuSonic28g*";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                try
+                connection.Open();
+                using (SqlCommand cmd = new SqlCommand("dbo.AddFuncionario", connection))
                 {
-                    connection.Open();
-                    using (SqlCommand cmd = new SqlCommand("dbo.AddFuncionario", connection))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@F_NIF", int.Parse(Fnif.Text));
-                        cmd.Parameters.AddWithValue("@F_Nome", Fnome.Text);
-                        cmd.Parameters.AddWithValue("@F_Contacto", int.Parse(Fcontacto.Text));
-                        cmd.Parameters.AddWithValue("@F_Cargo", Fcargo.Text);
-                        cmd.Parameters.AddWithValue("@F_GerenteNIF", NIF);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@F_NIF", int.Parse(Fnif.Text));
+                    cmd.Parameters.AddWithValue("@F_Nome", Fnome.Text);
+                    cmd.Parameters.AddWithValue("@F_Contacto", int.Parse(Fcontacto.Text));
+                    cmd.Parameters.AddWithValue("@F_Cargo", Fcargo.Text);
+                    cmd.Parameters.AddWithValue("@F_GerenteNIF", NIF);
 
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Funcionário adicionado com sucesso!");
-                    }
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Funcionário adicionado com sucesso!");
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                    Debug.WriteLine("FAILED TO OPEN CONNECTION TO DATABASE! " + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+                Debug.WriteLine("FAILED TO OPEN CONNECTION TO DATABASE! " + ex.Message);
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
             }
         }
 

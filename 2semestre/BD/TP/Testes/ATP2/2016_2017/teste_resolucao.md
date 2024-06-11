@@ -6,7 +6,7 @@
 
 2. V - Verdadeiro. Em um trigger do tipo AFTER UPDATE no SQL Server, a tabela lógica "deleted" contém as linhas que foram atualizadas, ou seja, o estado anterior das linhas antes da operação de UPDATE. Portanto, ela não estará vazia após uma operação de UPDATE.
 
-3. V - Verdadeiro.
+3. V - Verdadeiro. Normalmente, é preferível usar restrições de integridade declarativas em vez de triggers para impor a integridade dos dados. As restrições de integridade declarativas são mais fáceis de entender e gerenciar, e o SQL Server pode otimizá-las melhor. Além disso, as restrições de integridade declarativas são verificadas automaticamente pelo SQL Server, enquanto os triggers requerem código personalizado que deve ser testado e mantido.
 
 4. F - Falso. No SQL Server, um índice clustered (clustered index) organiza os dados da tabela fisicamente na ordem das colunas especificadas no índice. No entanto, os índices filtrados (filtered indexes) são uma forma especial de índice não-clustered que inclui apenas um subconjunto de filas na tabela, baseando-se numa condição de filtro. Portanto, enquanto um índice não-clustered pode ser filtrado, um índice clustered não pode ser do tipo filtrado no SQL Server.
 

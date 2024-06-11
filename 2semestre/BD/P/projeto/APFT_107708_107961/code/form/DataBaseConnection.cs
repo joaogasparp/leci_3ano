@@ -8,9 +8,9 @@ namespace form
     public static class DatabaseConnection
     {
         private static string dataSource = "tcp:mednat.ieeta.pt\\SQLSERVER,8101";
-        private static string initialCatalog = "p1g8";
-        private static string uid = "p1g8";
-        private static string password = "IrineuSonic28g*";
+        private static string initialCatalog = "x";
+        private static string uid = "x";
+        private static string password = "x";
 
         public static string connectionString = $"Data Source = {dataSource}; Initial Catalog = {initialCatalog}; uid= {uid}; password = {password}";
 

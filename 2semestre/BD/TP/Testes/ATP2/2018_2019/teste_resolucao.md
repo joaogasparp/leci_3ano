@@ -16,7 +16,7 @@
 
 7. No SQL Server, o processo de page split ocorre quando uma página de dados está cheia e uma operação de inserção ou atualização precisa adicionar mais dados à página. Isso não está diretamente relacionado à execução de consultas (queries). Portanto, a afirmação é Falsa (F).
 
-8. Embora seja comum e muitas vezes aconselhável estabelecer relacionamentos entre tabelas com base em chaves primárias e estrangeiras, não é uma regra rígida no modelo relacional. Existem situações em que pode ser útil ou necessário estabelecer um relacionamento com base em outros atributos que não sejam chaves primárias e estrangeiras. No entanto, fazer isso pode ter implicações para a integridade referencial e o desempenho das consultas. Portanto, a afirmação é Falsa (F).
+8. F - Falso. Embora seja comum e muitas vezes aconselhável estabelecer relacionamentos entre tabelas com base em chaves primárias e estrangeiras, não é uma regra rígida no modelo relacional. Existem situações em que pode ser útil ou necessário estabelecer um relacionamento com base em outros atributos que não sejam chaves primárias e estrangeiras. No entanto, fazer isso pode ter implicações para a integridade referencial e o desempenho das consultas.
 
 9. No SQL, a instrução REVOKE é usada para remover privilégios concedidos ou negados anteriormente a um usuário ou grupo. Portanto, você pode usar REVOKE para cancelar um GRANT ou DENY anterior. Portanto, a afirmação é Verdadeira (V).
 
@@ -77,10 +77,9 @@
 
     E) F. Isso é falso. O atributo Essn (Employee Social Security Number) na tabela Works_on já é parte da chave primária da tabela, e o SQL Server automaticamente cria um índice clustered para a chave primária. Portanto, não há necessidade de criar um índice nonclustered adicional para o atributo Essn. Além disso, a criação de índices adicionais tem custos, como o uso adicional de espaço em disco e o tempo adicional necessário para atualizar o índice sempre que os dados são modificados. Portanto, a decisão de criar um índice deve ser baseada em uma análise cuidadosa do padrão de consultas e atualizações.
 
-    F) F. Isso é falso. No SQL Server, um índice clustered é criado automaticamente apenas para a chave primária de uma tabela, se uma for definida. Se nenhuma chave primária for definida, nenhuma índice clustered será criado por padrão. Um índice clustered determina a ordem física dos dados na tabela, e cada tabela pode ter apenas um índice clustered. Portanto, se um índice clustered for necessário para um atributo que não seja a chave primária, ele deve ser criado manualmente.
+    F) V. Isso é verdade.
 
     G) F. Isso é falso. Índices filtrados no SQL Server são úteis quando apenas uma pequena porção dos dados é acessada frequentemente. Eles permitem que você indexe apenas uma parte dos dados com base em uma condição. No entanto, no caso dos atributos Fname e Lname na tabela Employee, não parece haver uma condição que justifique a criação de um índice filtrado. As consultas parecem acessar todos os funcionários, não apenas um subconjunto deles. Portanto, um índice nonclustered ou clustered composto seria mais apropriado para esses atributos.
 
     H) V. Isso é verdade. No SQL Server, quando você define um atributo como UNIQUE, um índice nonclustered é criado automaticamente para esse atributo para garantir que todos os valores sejam únicos. Portanto, se você definir o atributo Dname (Department Name) na tabela Department como UNIQUE, não precisará criar explicitamente um índice nonclustered para esse atributo. No entanto, é importante notar que a definição de um atributo como UNIQUE impõe uma restrição que pode afetar as operações de inserção e atualização. Portanto, essa decisão deve ser tomada com cuidado.
 
-    
