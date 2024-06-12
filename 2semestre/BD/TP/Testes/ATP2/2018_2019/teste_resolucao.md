@@ -67,7 +67,7 @@
 
     b)
 
-    A) V. Isso é verdade. Criar um índice nonclustered para o atributo Pno (Project Number) na tabela Works_on pode melhorar o desempenho da consulta que busca o nome dos projetos e o número de horas para os quais um determinado funcionário trabalha. Isso ocorre porque um índice nonclustered pode acelerar as operações de busca ao organizar os dados de uma maneira que o SQL Server possa encontrar rapidamente. No entanto, é importante notar que a criação de índices também tem custos, como o uso adicional de espaço em disco e o tempo adicional necessário para atualizar o índice sempre que os dados são modificados. Portanto, a decisão de criar um índice deve ser baseada em uma análise cuidadosa do padrão de consultas e atualizações.
+    A) F. Isso é falso.
 
     B) V. Isso é verdade. Criar um índice nonclustered para o atributo Dno (Department Number) na tabela Employee pode melhorar o desempenho da consulta que busca o salário médio dos funcionários por localização do departamento. Isso ocorre porque um índice nonclustered pode acelerar as operações de busca ao organizar os dados de uma maneira que o SQL Server possa encontrar rapidamente. No entanto, é importante notar que a criação de índices também tem custos, como o uso adicional de espaço em disco e o tempo adicional necessário para atualizar o índice sempre que os dados são modificados. Portanto, a decisão de criar um índice deve ser baseada em uma análise cuidadosa do padrão de consultas e atualizações.
 
