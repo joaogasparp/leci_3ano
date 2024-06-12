@@ -6,13 +6,13 @@
 
 2. Verdadeiro. É preferível guardar as senhas dos usuários na forma de Hash do que em texto livre (plain text) porque o hash é uma forma unidirecional de criptografia. Se um invasor obtiver acesso ao banco de dados, ele não poderá reverter o hash para obter a senha original.
 
-3. Falso. Numa consulta SQL com um Equijoin, os atributos da condição de junção com o valor a NULL não são descartados. Eles são incluídos no resultado, mas como NULL. Portanto, esta afirmação é falsa.
+3. Verdadeiro.
 
 4. d. Todas as anteriores. Todas as consultas listadas (a, b, c) retornam funcionários que não trabalham em projetos. Elas usam diferentes métodos (NOT IN, LEFT JOIN com IS NULL, EXCEPT) para alcançar o mesmo resultado.
 
 5. Verdadeiro. Um Checkpoint é um ponto de sincronismo (em disco) entre o transaction log e a base de dados. Isso é verdade porque um checkpoint é um ponto no processamento de transações onde todas as alterações de transações anteriores ao checkpoint são garantidas de terem sido gravadas em disco.
 
-6. Verdadeiro. A injeção de código SQL mencionada permite aceder aos conteúdos das tabelas. Isso é verdade porque a injeção de código SQL é uma técnica que explora uma falha de segurança ocorrendo na camada de banco de dados de uma aplicação.
+6. Falso.
 
 7. Falso. No controle de concorrência de transações, o mecanismo de locking não é um método do tipo otimista. É um método pessimista, pois assume que conflitos de transação são prováveis de acontecer e, portanto, requer bloqueios para prevenir conflitos. Portanto, esta afirmação é falsa.
 
@@ -22,7 +22,7 @@
 
 10. Verdadeiro. Numa transação, podemos ter um Rollback implícito quando ocorre um erro numa instrução SQL da transação. Isso é verdade porque um erro em uma instrução SQL pode deixar o banco de dados em um estado inconsistente, portanto, um rollback é necessário para restaurar o banco de dados ao seu estado anterior.
 
-11. Verdadeiro. Num trigger do tipo After, a tabela lógica deleted só poderá conter tuplos no caso de uma instrução DML do tipo delete. Isso é verdade porque a tabela deleted é usada para armazenar os registros que foram excluídos por uma operação de delete.
+11. Falso.
 
 12. Falso. Num trigger do tipo Instead Of, definido com conteúdo vazio, a instrução DML associada ao trigger não é executada. Portanto, esta afirmação é falsa.
 
@@ -30,7 +30,7 @@
 
 14. Verdadeiro. Um Stored Procedure permite retornar um inteiro que podemos atribuir a uma variável. Isso é verdade porque os procedimentos armazenados podem retornar valores que podem ser atribuídos a variáveis.
 
-15. Falso. Não faz sentido criar um índice quando o atributo indexado tem muitos valores repetidos. Isso é falso porque mesmo que um atributo tenha muitos valores repetidos, um índice ainda pode melhorar o desempenho da consulta.
+15. Verdadeiro.
 
 16. Verdadeiro. Em SQL, os INNER e os OUTER JOIN incluem os tuplos de ambas as tabelas que satisfazem as condições de junção. Isso é verdade porque a função de um JOIN é combinar linhas de duas ou mais tabelas com base em uma coluna relacionada entre elas.
 
@@ -38,9 +38,9 @@
 
 18. Verdadeiro. Em SQL Server, uma heap é uma tabela sem um clustered index. Isso é verdade porque uma heap é uma tabela que não tem um índice clusterizado e, portanto, as páginas de dados não são organizadas de forma específica.
 
-19. b. SELECT name, region FROM country x WHERE population > ALL (SELECT population/3 FROM country y WHERE y.region = x.region AND y.name != x.name). A opção b é a correta. Ela retorna os países cuja população é menor que todos os países em sua região com população dividida por três.
+19. d.
 
-20. Verdadeiro. Numa UDF do tipo 'Inline Table-valued' podemos ter várias instruções SQL e, no final, retornar um record-set. Isso é verdade porque uma função definida pelo usuário do tipo table-valued inline retorna uma tabela de valores calculados a partir de instruções SQL.
+20. Falso.
 
 21. Falso. A utilização de SQL dinâmico pode levar a vulnerabilidades de segurança, como a injeção de SQL, se não for adequadamente sanitizada.
 
@@ -56,9 +56,9 @@
 
 27. c. SELECT fname, Iname FROM employee WHERE salary > ALL(SELECT salary FROM employee WHERE dno = 2). Esta consulta retorna os nomes dos funcionários que ganham mais do que qualquer funcionário do departamento número 2.
 
-28. Verdadeiro. O bloco de instruções fornecido armazena o ssn do primeiro tuplo da tabela employee na variável @aux_ssn.
+28. Falso.
 
-29. Verdadeiro. Uma relação está na 5ª Forma Normal se tiver dependências de junção.
+29. Falso.
 
 30. Verdadeiro. Em SQL Server, podemos incluir atributos não-chave nas folhas de um índice não-clusterizado.
 
