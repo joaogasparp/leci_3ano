@@ -3,6 +3,7 @@
 display 1/2-4+5+8/4;
 n  <=  2;
 m <=  1/8;
+display n+m;
 display n*n*m;
 display n+m:m-n;
 display -n;

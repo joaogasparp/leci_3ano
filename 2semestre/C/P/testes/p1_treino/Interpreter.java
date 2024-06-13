@@ -5,7 +5,7 @@ import java.util.Scanner;
 @SuppressWarnings("CheckReturnValue")
 public class Interpreter extends StrLangBaseVisitor<String> {
    protected Map<String, String> variables = new HashMap<>();
-   protected Scanner scanner = new Scanner(System.in);
+   Scanner scanner = new Scanner(System.in);
 
    @Override
    public String visitStatPrint(StrLangParser.StatPrintContext ctx) {
@@ -76,16 +76,21 @@ public class Interpreter extends StrLangBaseVisitor<String> {
    @Override
    public String visitPrintableInput(StrLangParser.PrintableInputContext ctx) {
       System.out.print(visit(ctx.printable()));
-      return scanner.nextLine();
+      if (scanner.hasNextLine()) {
+         return scanner.nextLine();
+      } else {
+         System.err.println("ERROR: no input available!");
+         return null;
+      }
    }
 
    @Override
    public String visitPrintableConcat(StrLangParser.PrintableConcatContext ctx) {
       String s1 = visit(ctx.printable(0));
-		String s2 = visit(ctx.printable(1));
-		if (s1 != null && s2 != null) {
-			return s1.concat(s2);
-		}
-		return null;
+      String s2 = visit(ctx.printable(1));
+      if (s1 != null && s2 != null) {
+         return s1.concat(s2);
+      }
+      return null;
    }
 }
