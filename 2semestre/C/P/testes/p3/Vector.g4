@@ -2,7 +2,10 @@ grammar Vector;
 
 program: (stat ';')* EOF;
 
-stat: 'show' expr # statShow | expr '->' ID # statAssigment;
+stat: 
+	'show' expr 		# statShow
+	| expr '->' ID 		# statAssigment
+	;
 
 expr:
 	sign = ('+' | '-') expr					# exprUnary
@@ -12,7 +15,8 @@ expr:
 	| '(' expr ')'							# exprParenthesis
 	| VECTOR								# exprVector
 	| NUMBER								# exprNumber
-	| ID									# exprId;
+	| ID									# exprId
+	;
 
 VECTOR: '[' NUMBER (',' NUMBER)* ']';
 NUMBER: INT | FLOAT;
