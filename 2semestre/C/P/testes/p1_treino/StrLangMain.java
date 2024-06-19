@@ -1,11 +1,17 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 
 public class StrLangMain {
    public static void main(String[] args) {
+      if (args.length != 1) {
+         System.err.printf("ERROR: invalid number of arguments. Usage: ./run <filename.txt> ");
+         System.exit(2);
+      }
       try {
-         Scanner sc = new Scanner(System.in);
+         Scanner sc = new Scanner(new File(args[0]));
          String lineText = null;
          int numLine = 1;
          if (sc.hasNextLine())
@@ -42,6 +48,10 @@ public class StrLangMain {
       }
       catch(RecognitionException e) {
          e.printStackTrace();
+         System.exit(1);
+      }
+      catch (FileNotFoundException e) {
+         System.err.println("ERROR: File not found: " + args[0]);
          System.exit(1);
       }
    }
