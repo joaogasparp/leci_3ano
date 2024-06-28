@@ -1,0 +1,5 @@
+basicamente fazer as mesmas coisas que os outros porém com tuplos.
+1. tem também de dar para fazer head e tail em que head devolve o tuplo sem o último elemento e tail devolve o tuplo sem o primeiro elemento.
+2. ainda tem de dar para fazer o zip que junta dois tuplos num só.
+3. soma, subtração, multiplicação e divisão de tuplos.
+4. e tem de dar para dar print a uma linha vazia e tem um tuplo vazio também.

@@ -1,0 +1,9 @@
+-- p1.txt
+
+print [2,3];        -- [2,3]
+print [2,3,4];      -- [2,3,4]
+d <= [3,4,5,6];     -- guardar o tuplo na variável d
+print d;            -- [3,4,5,6]
+print;              -- "\n"
+c <= [];            -- guardar o tuplo na variável c
+print c;            -- []

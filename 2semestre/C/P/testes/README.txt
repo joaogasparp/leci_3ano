@@ -6,3 +6,12 @@ or:
 
 java -jar FracLangMain.jar p1.txt
 
+
+
+PARA TESTAR OS EXERCÍCIOS É:
+
+antlr4-build
+
+cat ../examples/p1.pdraw | antlr4-test -gui
+
+antlr4-run < ../examples/p2.pdraw
