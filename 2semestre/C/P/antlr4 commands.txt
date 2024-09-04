@@ -1,10 +1,24 @@
-1º -> antlr4-build
-2º -> echo "2 2 + 2 *" | antlr4-test -tree  (para ver a árvore)
-ou
-2º -> echo "2 2 + 2 *" | antlr4-test -gui   (para ver a árvore gráfica)
-3º -> antlr4-visitor SuffixCalculator Interpreter Double
-4º -> antlr4-main SuffixCalculator program -v Interpreter
-5º -> antlr4-build
-6º -> echo "2 2 + 2 *" | antlr4-run     (caso de linha a linha)
-ou
-6º -> antlr4-run < input.txt            (caso de ficheiro)
+Nota: Para testar antlr4-test; No news = Good news
+
+1: Escrever o .g4
+
+1.5: Se quiseres, podes dar build para testar se tens erros
+    -antlr4-build
+
+2: Criar o visitor OU listener
+    -antlr4-visitor <nome_.g4> <nome_visitor> <tipo do res>
+    -antlr4-listener <nome_.g4> <nome_listener> 
+
+2.5: Se quiseres, podes dar build para testar se tens erros
+    -antlr4-build
+
+3: Mexer com o a cena
+
+4: Criar a main
+    -antlr4-main -v <nome_visitor>
+
+5: Dar build
+    -antlr4-build
+
+6: Dar run
+    -antlr4-run
