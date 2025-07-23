@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>Game Vault Keys</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <style>
+      .bg-white {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}"
+          ><img
+            src="{{ url_for('static', filename='logo.png') }}"
+            alt=""
+            width="60"
+            height="45"
+            class="d-inline-block align-text-top"
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('store') }}">Store</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('missions') }}">Quizzes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('livestreams') }}"
+                >Livestreams</a
+              >
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item active">
+              <a
+                class="nav-link d-inline-block active"
+                aria-current="page"
+                href="{{ url_for('cart') }}"
+                >Cart</a
+              >
+            </li>
+            <li class="nav-item">
+              {% if current_user %}
+              <a
+                class="nav-link d-inline-block"
+                href="{{ url_for('profile') }}"
+              >
+                Profile
+              </a>
+              <a class="nav-link d-inline-block" href="{{ url_for('logout') }}"
+                >Logout</a
+              >
+              {% else %}
+              <a class="nav-link d-inline-block" href="{{ url_for('login') }}"
+                >Login</a
+              >
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4 bg-white">
+      <div class="row mt-4 ms-4">
+
+          <div class="col pb-5">
+            <div class="row">
+              <div class="col-md-4">Game Title</div>
+              <div class="col-md-2">Quantity</div>
+              <div class="col-md-3">Price per unit</div>
+              <div class="col-md-3">Price per game</div>
+            </div>
+            <hr />
+            <div class="row mt-2" id="cartItemsContainer">
+              <!-- Cart items will be displayed here -->
+              {% for cart_item in cart_items %}
+              <div class="row mb-3 mt-3">
+                <div class="col-md-4">{{ cart_item.title }}</div>
+                <div class="col-md-2">
+                  {{ cart_item.quantity }}
+                  <button class="btn btn-dark btn-sm" onclick="reduceQuantity('{{ cart_item.id }}')">-</button>
+                </div>
+                 
+                <div class="col-md-3">{{ cart_item.price }}€</div>
+                <div class="col-md-3">
+                  {{ cart_item.price * cart_item.quantity }}€
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-danger" onclick="removeItem('{{ cart_item.id }}')">Remove</button>
+                  
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            <hr
+              style="
+                height: 3px;
+                border-width: 0;
+                color: rgb(0, 0, 0);
+                background-color: rgb(0, 0, 0);
+              "
+            />
+
+            <div class="row mb-3">
+              <div class="col">Base Price</div>
+              <div class="col text-end me-4">
+                <span id="basePrice">0€</span>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col">Discount</div>
+              <div class="col text-end me-4">
+                <span id="discountAmount">- 0€</span>
+                <span id="discount"> (0%)</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">Total</div>
+              <div class="col text-end me-4">
+                <span id="totalPrice">0€</span>
+              </div>
+            </div>
+
+        </div>
+      </div>
+      <br />
+      <input type="text" id="promoCode" placeholder="Enter promo code" />
+      <button
+        type="button"
+        class="btn btn-primary mt-2"
+        onclick="applyPromoCode()"
+      >
+        Apply promo code
+      </button>
+      <a href="{{ url_for('payment') }}" class="btn btn-primary mt-2"
+        >Check Out</a
+      >
+    </div>
+    <script>
+      window.onload = function () {
+        fetch("/get_cart_items")
+          .then((response) => response.json())
+          .then((data) => {
+            displayCartItems(data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      };
+    
+      function displayCartItems(cartItems) {
+        var cartContainer = document.getElementById("cartItemsContainer");
+        cartContainer.innerHTML = "";
+    
+        cartItems.forEach(function (item) {
+          var totalPriceForItem = item.price * item.quantity;
+          var cartItemElement = document.createElement("div");
+          cartItemElement.classList.add("row", "mb-3", "mt-3");
+    
+          cartItemElement.innerHTML = `
+              <div class="col-md-4">${item.title}</div>
+              <div class="col-md-2">
+                ${item.quantity}
+                <button class="btn btn-dark btn-sm" onclick="reduceQuantity(${item.id})">-</button>
+              </div>
+              <div class="col-md-3">${item.price.toFixed(2)}€</div>
+              <div class="col-md-3">${totalPriceForItem.toFixed(2)}€</div>
+              <div class="col-md-2">
+                <button class="btn btn-danger" onclick="removeItem(${item.id})">Remove</button>
+                
+              </div>
+            `;
+    
+          cartContainer.appendChild(cartItemElement);
+        });
+    
+        var total = calculateTotal(cartItems);
+        var totalElement = document.getElementById("totalPrice");
+        totalElement.textContent = total.toFixed(2) + "€";
+      }
+    
+      function calculateTotal(cartItems) {
+        var total = 0;
+        cartItems.forEach(function (item) {
+          total += item.price * item.quantity;
+        });
+        var basePriceElement = document.getElementById("basePrice");
+        basePriceElement.textContent = total.toFixed(2) + "€";
+        return total;
+      }
+    
+      var promoCodeApplied = false;
+    
+      function applyPromoCode() {
+        var promoCodeInput = document.getElementById("promoCode");
+        var promoCode = promoCodeInput.value.toUpperCase();
+    
+        var promoCodeFormat = /^[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}$/;
+        if (!promoCodeFormat.test(promoCode)) {
+          showAlert(
+            "Invalid promo code format. It should be XXXX-XXXX-XXXX",
+            "alert-danger"
+          );
+          return;
+        }
+    
+        var promoCodes = ["C39N-Q8YB-Q37B", "B45D-C7GH-M5EW"];
+        if (promoCodes.includes(promoCode) && !promoCodeApplied) {
+          var totalElement = document.getElementById("totalPrice");
+          var basePrice = parseFloat(
+            document.getElementById("basePrice").textContent
+          );
+          var discount = basePrice * 0.2;
+          var total = basePrice - discount;
+          totalElement.textContent = total.toFixed(2) + "€";
+          promoCodeInput.value = "";
+    
+          var discountElement = document.getElementById("discount");
+          discountElement.textContent = "(20%)";
+    
+          var discountAmountElement = document.getElementById("discountAmount");
+          discountAmountElement.textContent = "-" + discount.toFixed(2) + "€";
+    
+          promoCodeApplied = true;
+          showAlert("20% Discount applied!", "alert-success");
+        } else {
+          if (promoCodeApplied) {
+            showAlert(
+              "A promo code has already been applied.",
+              "alert-warning"
+            );
+          } else {
+            showAlert("Invalid promo code.", "alert-danger");
+          }
+        }
+      }
+    
+      function showAlert(message, alertClass) {
+        var alertDiv = document.createElement("div");
+        alertDiv.textContent = message;
+        alertDiv.classList.add("alert", alertClass);
+        alertDiv.setAttribute("role", "alert");
+    
+        document.body.appendChild(alertDiv);
+    
+        setTimeout(function () {
+          alertDiv.remove();
+        }, 2000);
+      }
+    
+      function removeItem(itemId) {
+        fetch(`/remove_cart_item/${itemId}`, {
+          method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+          displayCartItems(data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+    
+      function reduceQuantity(itemId) {
+        fetch(`/reduce_cart_item/${itemId}`, {
+          method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+          displayCartItems(data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+    </script>
+    
+  </body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>Game Vault Keys</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <style>
+      .bg-white {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-container {
+        background-color: white; /* Garante que o formulário tenha um fundo branco */
+        display: flex; /* Usa flexbox para posicionar os elementos */
+        flex-direction: column; /* Organiza os elementos em coluna */
+        justify-content: center; /* Centraliza verticalmente os elementos */
+        align-items: center; /* Centraliza horizontalmente os elementos */
+        gap: 20px; /* Espaçamento entre os elementos */
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}"
+          ><img
+            src="{{ url_for('static', filename='logo.png') }}"
+            alt=""
+            width="60"
+            height="45"
+            class="d-inline-block align-text-top"
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="{{ url_for('store') }}"
+                >Store</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('missions') }}">Quizzes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('livestreams') }}"
+                >Livestreams</a
+              >
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link d-inline-block" href="{{ url_for('cart') }}"
+                >Cart</a
+              >
+            </li>
+            <li class="nav-item">
+              {% if current_user %}
+              <a
+                class="nav-link d-inline-block active"
+                href="{{ url_for('profile') }}"
+              >
+                Profile
+              </a>
+              <a class="nav-link d-inline-block" href="{{ url_for('logout') }}"
+                >Logout</a
+              >
+              {% else %}
+              <a class="nav-link d-inline-block" href="{{ url_for('login') }}"
+                >Login</a
+              >
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4 bg-white">
+      <div class="form-container">
+        <form
+          action="{{ url_for('update_profile') }}"
+          method="POST"
+          enctype="multipart/form-data"
+          id="profileForm"
+          style="display: none"
+        >
+          <div class="mb-3">
+            <label for="username" class="form-label">Change Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              value="{{ username }}"
+              placeholder="Enter new Username"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Change Email:</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              value="{{ email }}"
+              placeholder="Enter email"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="pwd" class="form-label">Change Password:</label>
+            <input
+              type="password"
+              class="form-control"
+              id="pwd"
+              placeholder="Enter password"
+              name="password"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Choose file</label>
+            <input
+              type="file"
+              class="form-control"
+              id="image"
+              name="image"
+              onchange="displaySelectedImage(event)"
+              value="image"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Update Profile</button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="toggleFormVisibility()"
+          >
+            Fechar
+          </button>
+        </form>
+      </div>
+
+      <div class="container mt-4">
+        <div class="row">
+          <div class="col-md-1">
+            <img
+              id="ProfileImage"
+              src="{{ url_for('static', filename='profile.png') }}"
+              alt=""
+              width="120"
+              height="120"
+              class="rounded-circle"
+            />
+          </div>
+          <div class="col-md-4 py-5 ms-4">
+            <h4>{{ session['username'] }}</h4>
+          </div>
+          <div class="col-md-4 py-5 me-auto">
+            <a class="btn btn-primary" id="editProfileBtn">Edit Profile</a>
+          </div>
+        </div>
+        <hr />
+        <div class="col">
+          <div class="row mt-3">Name: {{ session['username'] }}</div>
+          <div class="row mt-3">Email: {{ email }}</div>
+        </div>
+        <hr />
+      </div>
+    </div>
+  </body>
+
+  <script>
+    function toggleFormVisibility() {
+      var form = document.getElementById("profileForm");
+      if (form.style.display === "none") {
+        form.style.display = "block";
+      } else {
+        form.style.display = "none";
+      }
+    }
+
+    function displaySelectedImage(event) {
+      const selectedImage = document.getElementById("ProfileImage");
+      const fileInput = event.target;
+
+      if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          selectedImage.src = e.target.result;
+        };
+
+        reader.readAsDataURL(fileInput.files[0]);
+      }
+    }
+
+    document
+      .getElementById("editProfileBtn")
+      .addEventListener("click", function () {
+        document.getElementById("profileForm").style.display = "block";
+      });
+
+    document
+      .getElementById("profileForm")
+      .addEventListener("submit", function (event) {
+        event.preventDefault(); // Previne o comportamento padrão de recarga da página
+
+        var formData = new FormData(document.getElementById("profileForm"));
+        fetch("/update_profile", {
+          // Envia os dados para a rota /update_profile
+          method: "POST",
+          body: formData,
+        }).then((response) => {
+          if (!response.ok) {
+            throw new Error("Erro ao atualizar o perfil.");
+          }
+          return response.json(); // Converte a resposta para JSON
+        });
+      })
+      .then((data) => {
+        console.log(data.message);
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+        alert("Erro ao atualizar o perfil.");
+      });
+  </script>
+</html>

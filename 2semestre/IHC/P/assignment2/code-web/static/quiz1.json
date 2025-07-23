@@ -1,0 +1,104 @@
+{
+  "quiz": [
+    {
+      "pergunta": "What was the first home video game console released?",
+      "opcoes": {
+        "a": "Nintendo Entertainment System (NES)",
+        "b": "Atari 2600",
+        "c": "Magnavox Odyssey",
+        "d": "Sega Genesis"
+      },
+      "resposta_correta": "c"
+    },
+    {
+      "pergunta": "Which of these consoles was released by Sony?",
+      "opcoes": {
+        "a": "Xbox One",
+        "b": "PlayStation 4",
+        "c": "Nintendo Switch",
+        "d": "Atari Jaguar"
+      },
+      "resposta_correta": "b"
+    },
+    {
+      "pergunta": "The Nintendo 64 became famous for introducing what innovation in gaming?",
+      "opcoes": {
+        "a": "3D graphics",
+        "b": "Wireless controllers",
+        "c": "CD player",
+        "d": "Virtual reality"
+      },
+      "resposta_correta": "a"
+    },
+    {
+      "pergunta": "The Game Boy console was released by which company?",
+      "opcoes": {
+        "a": "Sega",
+        "b": "Sony",
+        "c": "Nintendo",
+        "d": "Microsoft"
+      },
+      "resposta_correta": "c"
+    },
+    {
+      "pergunta": "The Dreamcast was the last console released by which company?",
+      "opcoes": {
+        "a": "Sega",
+        "b": "Sony",
+        "c": "Nintendo",
+        "d": "Microsoft"
+      },
+      "resposta_correta": "a"
+    },
+    {
+      "pergunta": "Which of these consoles is known for its ability to play games in high definition (HD)?",
+      "opcoes": {
+        "a": "PlayStation 2",
+        "b": "Xbox 360",
+        "c": "Super Nintendo (SNES)",
+        "d": "Sega Saturn"
+      },
+      "resposta_correta": "b"
+    },
+    {
+      "pergunta": "Which of these consoles was released by Microsoft?",
+      "opcoes": {
+        "a": "PlayStation 3",
+        "b": "Xbox 360",
+        "c": "GameCube",
+        "d": "Wii U"
+      },
+      "resposta_correta": "b"
+    },
+    {
+      "pergunta": "The PSP handheld console was developed by which company?",
+      "opcoes": {
+        "a": "Sega",
+        "b": "Sony",
+        "c": "Nintendo",
+        "d": "Microsoft"
+      },
+      "resposta_correta": "b"
+    },
+    {
+      "pergunta": "Which of these consoles is known for its innovative motion detection technology?",
+      "opcoes": {
+        "a": "PlayStation 3",
+        "b": "Xbox 360",
+        "c": "Nintendo Wii",
+        "d": "Sega Dreamcast"
+      },
+      "resposta_correta": "c"
+    },
+    {
+      "pergunta": "In which year was the Xbox One console released?",
+      "opcoes": {
+        "a": "2010",
+        "b": "2013",
+        "c": "2016",
+        "d": "2019"
+      },
+      "resposta_correta": "b"
+    }
+  ]
+}

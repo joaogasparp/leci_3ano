@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>Game Vault Keys</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <style>
+    body{
+      background: none;
+      background-color: white;
+    }
+  </style>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}"
+          ><img
+            src="{{ url_for('static', filename='logo.png') }}"
+            alt=""
+            width="60"
+            height="45"
+            class="d-inline-block align-text-top"
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('store') }}">Store</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('missions') }}">Quizzes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('livestreams') }}"
+                >Livestreams</a
+              >
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link d-inline-block" href="{{ url_for('cart') }}"
+                >Cart</a
+              >
+            </li>
+            <li class="nav-item">
+              {% if current_user %}
+              <a
+                class="nav-link d-inline-block"
+                href="{{ url_for('profile') }}"
+              >
+                Profile
+              </a>
+              <a class="nav-link d-inline-block" href="{{ url_for('logout') }}"
+                >Logout</a
+              >
+              {% else %}
+              <a class="nav-link d-inline-block" href="{{ url_for('login') }}"
+                >Login</a
+              >
+              {% endif %}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div id="quiz-container">
+        <h3 id="question"></h3>
+        <div id="options-container"></div>
+        <button id="next-button" onclick="nextQuestion()">Next Question >></button>
+        <p id="error-message" style="color: red; display: none;">You must select an option!</p>
+      </div>
+      <div id="score-container" style="display: none;">
+        <h3>Your Score:</h3>
+        <h4 id="score"></h4>
+        <p id="message"><p>
+        <a href="{{ url_for('missions') }}">
+          <button id="missions_back" >Missions</button>
+        </a>
+      </div>
+    
+    <script src="{{ url_for('static', filename='quiz1.js') }}"></script>
+  </body>
+</html>
